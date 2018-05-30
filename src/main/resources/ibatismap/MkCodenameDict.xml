@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkCodenameDict">
+
+
+	<sql id="select-all-column">
+	SELECT
+		table_en_name AS tableEnName,
+		table_cn_name AS tableCnName,
+		field_en_name AS fieldEnName,
+		field_cn_name AS fieldCnName,
+		field_value AS fieldValue,
+		field_desc AS fieldDesc,
+		field_url AS fieldUrl,
+		assi_tablenname AS assiTablenname,
+		assi_fieldenname AS assiFieldenname,
+		assi_fieldvalue AS assiFieldvalue,
+		province_group AS provinceGroup,
+		out_fieldenname AS outFieldenname,
+		out_fieldcnname AS outFieldcnname,
+		out_system_type AS outSystemType,
+		lower(table_en_name) AS tableEnNameLower,
+		out_fieldvalue AS outFieldvalue
+	FROM mk_codename_dict
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+			<isNotNull property="tableEnName" prepend="and">
+				<isNotEmpty property="tableEnName">
+					table_en_name = #tableEnName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="tableCnName" prepend="and">
+				<isNotEmpty property="tableCnName">
+					table_cn_name = #tableCnName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="fieldEnName" prepend="and">
+				<isNotEmpty property="fieldEnName">
+					field_en_name = #fieldEnName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="fieldCnName" prepend="and">
+				<isNotEmpty property="fieldCnName">
+					field_cn_name = #fieldCnName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="fieldValue" prepend="and">
+				<isNotEmpty property="fieldValue">
+					field_value = #fieldValue#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="fieldDesc" prepend="and">
+				<isNotEmpty property="fieldDesc">
+					field_desc = #fieldDesc#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="fieldUrl" prepend="and">
+				<isNotEmpty property="fieldUrl">
+					field_url = #fieldUrl#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="assiTablenname" prepend="and">
+				<isNotEmpty property="assiTablenname">
+					assi_tablenname = #assiTablenname#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="assiFieldenname" prepend="and">
+				<isNotEmpty property="assiFieldenname">
+					assi_fieldenname = #assiFieldenname#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="assiFieldvalue" prepend="and">
+				<isNotEmpty property="assiFieldvalue">
+					assi_fieldvalue = #assiFieldvalue#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="provinceGroup" prepend="and">
+				<isNotEmpty property="provinceGroup">
+					province_group = #provinceGroup#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="outFieldenname" prepend="and">
+				<isNotEmpty property="outFieldenname">
+					out_fieldenname = #outFieldenname#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="outFieldcnname" prepend="and">
+				<isNotEmpty property="outFieldcnname">
+					out_fieldcnname = #outFieldcnname#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="outSystemType" prepend="and">
+				<isNotEmpty property="outSystemType">
+					out_system_type = #outSystemType#
+				</isNotEmpty>
+			</isNotNull>
+			
+			<!--以下为非自动生成，手动添加-->
+			<isNotNull property="fieldEnNameArr" prepend="and">
+				<isNotEmpty property="fieldEnNameArr">
+				   field_en_name in 
+				   <iterate open="(" close=")" conjunction="," property="fieldEnNameArr">
+				       #fieldEnNameArr[]#
+				   </iterate>
+				</isNotEmpty>
+			</isNotNull>
+			
+			<isNotNull property="tableEnNameArr" prepend="and">
+				<isNotEmpty property="tableEnNameArr">
+				   table_en_name in 
+				   <iterate open="(" close=")" conjunction="," property="tableEnNameArr">
+				       #tableEnNameArr[]#
+				   </iterate>
+				</isNotEmpty>
+			</isNotNull>
+			
+			<isNotNull property="fieldValueArr" prepend="and">
+				<isNotEmpty property="fieldValueArr">
+				   field_value in 
+				   <iterate open="(" close=")" conjunction="," property="fieldValueArr">
+				       #fieldValueArr[]#
+				   </iterate>
+				</isNotEmpty>
+			</isNotNull>
+			
+	</dynamic>
+	</sql>
+
+	<select id="selectMkCodenameDict" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertMkCodenameDict" parameterClass="java.util.Map">
+	<![CDATA[
+	INSERT INTO mk_codename_dict
+	]]>
+	<dynamic prepend=" (  ">
+		<isNotNull property="tableEnName" prepend=",">
+			<isNotEmpty property="tableEnName">
+				table_en_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="tableCnName" prepend=",">
+			<isNotEmpty property="tableCnName">
+				table_cn_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldEnName" prepend=",">
+			<isNotEmpty property="fieldEnName">
+				field_en_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldCnName" prepend=",">
+			<isNotEmpty property="fieldCnName">
+				field_cn_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldValue" prepend=",">
+			<isNotEmpty property="fieldValue">
+				field_value
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldDesc" prepend=",">
+			<isNotEmpty property="fieldDesc">
+				field_desc
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldUrl" prepend=",">
+			<isNotEmpty property="fieldUrl">
+				field_url
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="assiTablenname" prepend=",">
+			<isNotEmpty property="assiTablenname">
+				assi_tablenname
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="assiFieldenname" prepend=",">
+			<isNotEmpty property="assiFieldenname">
+				assi_fieldenname
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="assiFieldvalue" prepend=",">
+			<isNotEmpty property="assiFieldvalue">
+				assi_fieldvalue
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="provinceGroup" prepend=",">
+			<isNotEmpty property="provinceGroup">
+				province_group
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outFieldenname" prepend=",">
+			<isNotEmpty property="outFieldenname">
+				out_fieldenname
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outFieldcnname" prepend=",">
+			<isNotEmpty property="outFieldcnname">
+				out_fieldcnname
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outSystemType" prepend=",">
+			<isNotEmpty property="outSystemType">
+				out_system_type
+			</isNotEmpty>
+		</isNotNull>
+		</dynamic>
+	  <dynamic prepend=" ) VALUES (  ">
+		<isNotNull property="tableEnName" prepend=",">
+			<isNotEmpty property="tableEnName">
+				#tableEnName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="tableCnName" prepend=",">
+			<isNotEmpty property="tableCnName">
+				#tableCnName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldEnName" prepend=",">
+			<isNotEmpty property="fieldEnName">
+				#fieldEnName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldCnName" prepend=",">
+			<isNotEmpty property="fieldCnName">
+				#fieldCnName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldValue" prepend=",">
+			<isNotEmpty property="fieldValue">
+				#fieldValue#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldDesc" prepend=",">
+			<isNotEmpty property="fieldDesc">
+				#fieldDesc#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldUrl" prepend=",">
+			<isNotEmpty property="fieldUrl">
+				#fieldUrl#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="assiTablenname" prepend=",">
+			<isNotEmpty property="assiTablenname">
+				#assiTablenname#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="assiFieldenname" prepend=",">
+			<isNotEmpty property="assiFieldenname">
+				#assiFieldenname#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="assiFieldvalue" prepend=",">
+			<isNotEmpty property="assiFieldvalue">
+				#assiFieldvalue#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="provinceGroup" prepend=",">
+			<isNotEmpty property="provinceGroup">
+				#provinceGroup#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outFieldenname" prepend=",">
+			<isNotEmpty property="outFieldenname">
+				#outFieldenname#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outFieldcnname" prepend=",">
+			<isNotEmpty property="outFieldcnname">
+				#outFieldcnname#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outSystemType" prepend=",">
+			<isNotEmpty property="outSystemType">
+				#outSystemType#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+	
+	)
+	</insert>
+	
+	<update id="updateMkCodenameDict" parameterClass="java.util.Map">
+	UPDATE mk_codename_dict
+	<dynamic prepend=" SET ">
+		<isNotNull property="tableEnName" prepend=",">
+		    <isNotEmpty property="tableEnName">
+			    table_en_name = #tableEnName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="tableCnName" prepend=",">
+		    <isNotEmpty property="tableCnName">
+			    table_cn_name = #tableCnName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldEnName" prepend=",">
+		    <isNotEmpty property="fieldEnName">
+			    field_en_name = #fieldEnName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldCnName" prepend=",">
+		    <isNotEmpty property="fieldCnName">
+			    field_cn_name = #fieldCnName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldValue" prepend=",">
+		    <isNotEmpty property="fieldValue">
+			    field_value = #fieldValue#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldDesc" prepend=",">
+		    <isNotEmpty property="fieldDesc">
+			    field_desc = #fieldDesc#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldUrl" prepend=",">
+		    <isNotEmpty property="fieldUrl">
+			    field_url = #fieldUrl#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="assiTablenname" prepend=",">
+		    <isNotEmpty property="assiTablenname">
+			    assi_tablenname = #assiTablenname#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="assiFieldenname" prepend=",">
+		    <isNotEmpty property="assiFieldenname">
+			    assi_fieldenname = #assiFieldenname#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="assiFieldvalue" prepend=",">
+		    <isNotEmpty property="assiFieldvalue">
+			    assi_fieldvalue = #assiFieldvalue#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="provinceGroup" prepend=",">
+		    <isNotEmpty property="provinceGroup">
+			    province_group = #provinceGroup#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outFieldenname" prepend=",">
+		    <isNotEmpty property="outFieldenname">
+			    out_fieldenname = #outFieldenname#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outFieldcnname" prepend=",">
+		    <isNotEmpty property="outFieldcnname">
+			    out_fieldcnname = #outFieldcnname#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outSystemType" prepend=",">
+		    <isNotEmpty property="outSystemType">
+			    out_system_type = #outSystemType#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+
+	<delete id="deleteMkCodenameDict" parameterClass="java.util.Map">
+	DELETE FROM mk_codename_dict
+	<include refid="where-all-condition"/>
+	</delete>
+	<!-- 事件添加 -->
+	<select id="selectMkEventtypeDict" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap">
+		<isEmpty property="S">
+			select
+			field_value AS fieldValue,
+			field_desc
+			AS fieldDesc
+			from mk_codename_dict
+			where
+			table_en_name='mk_eventtype_dict'
+		</isEmpty>
+	</select>
+	
+	<select id="selectMkmsgtypeDict" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap">
+		select
+		field_value AS fieldValue,
+		field_desc AS fieldDesc
+		from mk_codename_dict
+		where table_en_name='mk_msgtype_dict'
+	</select>
+	
+	<select id="selectMkTypeDict" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT
+		t.field_value AS fieldValue,
+		t.field_desc AS fieldDesc
+		from mk_codename_dict t
+		where 1=1 and t.table_en_name = #tableEnName#
+	</select>
+	<!-- 事件添加 -->
+	<select id="selectMkCodenameDictParam" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<isEmpty property="S">
+			SELECT
+			table_en_name AS tableEnName,
+			table_cn_name AS tableCnName,
+			field_en_name AS fieldEnName,
+			field_cn_name AS fieldCnName,
+			field_value AS fieldValue,
+			field_desc AS fieldDesc,
+			field_url AS fieldUrl,
+			assi_tablenname AS assiTablenname,
+			assi_fieldenname AS assiFieldenname,
+			assi_fieldvalue AS assiFieldvalue,
+			province_group AS provinceGroup,
+			out_fieldenname AS outFieldenname,
+			out_fieldcnname AS outFieldcnname,
+			out_system_type AS outSystemType
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM mk_codename_dict $W$
+	</select>
+	
+	<!-- 以下手动添加 -->
+	<!--查询公共配置信息 -->
+	<select id="selectMaxCommonInfo" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap">
+		select
+		t.field_en_name as fieldEnName,
+		max(t.field_value) as fieldValue
+		from mk_codename_dict t
+		where 1=1
+		<isNotNull property="tableEnName" prepend="and">
+			<isNotEmpty property="tableEnName">
+				<![CDATA[ 
+					t.table_en_name = #tableEnName#
+				]]>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="provinceGroup" prepend="and">
+			<isNotEmpty property="provinceGroup">
+				<![CDATA[ 
+					t.province_group = #provinceGroup#
+				]]>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fieldEnName" prepend="and">
+			<isNotEmpty property="fieldEnName">
+				<![CDATA[ 
+					t.field_en_name = #fieldEnName#
+				]]>
+			</isNotEmpty>
+		</isNotNull>
+		group by t.field_en_name
+	</select>
+	<!-- 查找服务类型 -->
+	<select id="selectServiceTypeValue" parameterClass="java.util.Map"
+		resultClass="java.lang.String">
+		select field_en_name as fieldEnName
+		from mk_codename_dict
+		<dynamic prepend=" where ">
+			<isNotNull property="fieldValue" prepend="and">
+				<isNotEmpty property="fieldValue">
+					field_value = #fieldValue#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="provinceGroup" prepend="and">
+				<isNotEmpty property="provinceGroup">
+					province_group = #provinceGroup#
+				</isNotEmpty>
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<!-- 根据mk_parcontent_dict配置数据，查询相应数据 -->
+	<select id="selectParContent" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select distinct
+		field_value as parContentId,
+		field_desc as parContentName
+		from mk_codename_dict
+		<include refid="where-all-condition"/>
+	</select>
+	<!-- 根据mk_codename_dict配置数据，并以fieldValue排序 -->
+	<select id="selectMkCodenameDictOrderByValue" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+		order by field_value  
+	</select>
+	<!-- 根据mk_codename_dict配置数据，并以fieldValue排序 -->
+	<select id="selectRuleClassFromMkCodenameDict" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT
+		field_value AS ruleClass,
+		field_desc AS ruleClassName,
+		assi_fieldvalue AS ruleType
+		FROM mk_codename_dict
+		<include refid="where-all-condition"/>
+		order by field_value  
+	</select>
+	
+	<select id="queryMkCodenameDictKindName" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select 
+          distinct(a.BRAND_CODE) as BRAND_CODE,
+          a.BRAND_NAME as BRAND_NAME,
+          c.field_cn_name as KIND_NAME,
+		  c.field_value as KIND_CODE
+    	from 
+    		  mk_resource_dict a,
+    		  mk_codename_dict c
+    	where 
+    		  	c.table_en_name = 'mk_termitype_dict' 
+			  and a.kind_code = c.field_value
+		<isNotNull property="resource_code" prepend="and">
+			<isNotEmpty property="resource_code">
+			  a.resource_code = #resource_code#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="queryMkCodenameDictSupplyName" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select 
+          	  field_desc as SUPPLY_NAME
+    	from 
+    		  mk_codename_dict
+    	where 
+    			  table_en_name = 'mk_supply_dict' 
+    	      and field_en_name = 'supply_id' 
+		<isNotNull property="supply_id" prepend="and">
+			<isNotEmpty property="supply_id">
+				  field_value = #supply_id#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+		
+	<select id="queryMkCodenameDictChnName" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select 
+          	  field_desc as CHN_NAME
+    	from 
+    		  mk_codename_dict
+    	where 
+    			  table_en_name = 'mk_chntype_dict'
+		<isNotNull property="chn_type" prepend="and">
+			<isNotEmpty property="chn_type">
+			  	  field_value = #chn_type#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	<select id="selectMkTypeDictByTableName" parameterClass="java.lang.String" resultClass="java.util.HashMap">
+		SELECT
+		t.field_value AS fieldValue,
+		t.field_desc AS fieldDesc
+		from mk_codename_dict t
+		where 1=1 and t.table_en_name = #tableEnName#
+	</select>
+</sqlMap>

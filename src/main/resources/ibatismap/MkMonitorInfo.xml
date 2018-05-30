@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkMonitorInfo">
+
+	<sql id="select-all-column">
+		SELECT
+		serial_id AS serialId,
+		topic,
+		event_id AS eventId,
+		year,
+		month,
+		day,
+		hour,
+		time,
+		count
+		FROM mk_monitor_info
+	</sql>
+
+	<sql id="where-all-condition">
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="topic" prepend="and">
+				<isNotEmpty property="topic">
+					topic = #topic#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="eventId" prepend="and">
+				<isNotEmpty property="eventId">
+					event_id = #eventId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="year" prepend="and">
+				<isNotEmpty property="year">
+					year = #year#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="month" prepend="and">
+				<isNotEmpty property="month">
+					month = #month#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="day" prepend="and">
+				<isNotEmpty property="day">
+					day = #day#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="time" prepend="and">
+				<isNotEmpty property="time">
+					time = #time#
+				</isNotEmpty>
+			</isNotNull>
+		</dynamic>
+	</sql>
+
+	<select id="selectMkMonthInfo" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column" />
+		<include refid="where-all-condition" />
+	</select>
+	<!-- 已发布活动类型 的当月触发量 -->
+	<select id="queryMonitorGBetype" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select count(e.event_id) ecount,e.event_type etype,sum(m1.count) count from mk_event_info e 
+	LEFT JOIN (select event_id,sum(count) count from mk_monitor_info m where m.`year`=#year# and m.`month`=#month# group by event_id) m1
+		on e.event_id = m1.event_id
+		where  e.status_code = '04'
+		group by e.event_type
+	</select>
+	
+	<!-- 已发布活动类型 的当月触发量 -->
+	<select id="queryMonitorGBtopic" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select m.topic, sum(m.count) count from  mk_monitor_info m 
+			where m.`year`=#year# and m.`month`=#month#
+		group by m.topic
+	</select>
+	
+	<!-- 查询活动 自由维度 -->
+	<select id="queryMonitorGBeventId" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select sum(count) count from mk_monitor_info m
+		<include refid="where-all-condition" />
+	</select>
+</sqlMap>

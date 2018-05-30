@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkContentInfo">
+
+
+	<sql id="select-all-column">
+	SELECT
+		content_serial_id AS contentSerialId,
+		content_id AS contentId,
+		content_name AS contentName,
+		content_type AS contentType,
+		content_desc AS contentDesc,
+		start_date AS startDate,
+		end_date AS endDate,
+		note AS note,
+		status_code AS statusCode,
+		region_code AS regionCode,
+		group_id AS groupId,
+		group_name AS groupName,
+		oper_no AS operNo,
+		oper_name AS operName,
+		oper_time AS operTime,
+		template_flag AS templateFlag
+	FROM mk_content_info
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+			<isNotNull property="contentSerialId" prepend="and">
+				<isNotEmpty property="contentSerialId">
+					content_serial_id = #contentSerialId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="contentId" prepend="and">
+				<isNotEmpty property="contentId">
+					content_id = #contentId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="contentIds" prepend="and">
+				<isNotEmpty property="contentIds">
+				    content_id in 
+					<iterate property="contentIds" open="(" close=")" conjunction=","> 
+						#contentIds[]#
+					</iterate>
+				</isNotEmpty>
+		    </isNotNull>
+			<isNotNull property="contentName" prepend="and">
+				<isNotEmpty property="contentName">
+					content_name = #contentName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="contentNameStr" prepend="and">
+				<isNotEmpty property="contentNameStr">
+					<![CDATA[ 
+                        content_name like concat('%', #contentNameStr#, '%')
+                    ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="contentType" prepend="and">
+				<isNotEmpty property="contentType">
+					content_type = #contentType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="contentDesc" prepend="and">
+				<isNotEmpty property="contentDesc">
+					content_desc = #contentDesc#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="startDateStart" prepend="and">
+				<isNotEmpty property="startDateStart">
+					<![CDATA[ start_date >= #startDateStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="startDateEnd" prepend="and">
+				<isNotEmpty property="startDateEnd">
+					<![CDATA[ start_date <= #startDateEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="endDateStart" prepend="and">
+				<isNotEmpty property="endDateStart">
+					<![CDATA[ end_date >= #endDateStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="endDateEnd" prepend="and">
+				<isNotEmpty property="endDateEnd">
+					<![CDATA[ end_date <= #endDateEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="note" prepend="and">
+				<isNotEmpty property="note">
+					note = #note#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="statusCode" prepend="and">
+				<isNotEmpty property="statusCode">
+					status_code = #statusCode#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="regionCode" prepend="and">
+				<isNotEmpty property="regionCode">
+					region_code = #regionCode#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="groupId" prepend="and">
+				<isNotEmpty property="groupId">
+					group_id = #groupId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="groupName" prepend="and">
+				<isNotEmpty property="groupName">
+					group_name = #groupName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operNo" prepend="and">
+				<isNotEmpty property="operNo">
+					oper_no = #operNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operName" prepend="and">
+				<isNotEmpty property="operName">
+					oper_name = #operName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeStart" prepend="and">
+				<isNotEmpty property="operTimeStart">
+					<![CDATA[ oper_time >= #operTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeEnd" prepend="and">
+				<isNotEmpty property="operTimeEnd">
+					<![CDATA[ oper_time <= #operTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="notContract" prepend="and">
+				<isNotEmpty property="notContract">
+					<![CDATA[content_type <> '01' and content_type <> '02' ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="templateFlag" prepend="and">
+				<isNotEmpty property="templateFlag">
+					template_flag = #templateFlag#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="contractTimeLimit" prepend="and">
+				<isNotEmpty property="contractTimeLimit">
+					<![CDATA[ 
+						(start_date<=DATE_FORMAT(now(),'%Y-%m-%d') or start_date is null)
+						and (end_date>=DATE_FORMAT(now(),'%Y-%m-%d') or end_date is null)
+					 ]]>
+				</isNotEmpty>
+			</isNotNull>
+	</dynamic>
+	</sql>
+	<select id="selectMkContentInfoById" parameterClass="java.lang.String" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		WHERE content_serial_id = #contentSerialId#
+	</select>
+
+	<select id="selectMkContentInfo" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertMkContentInfo" parameterClass="java.util.Map">
+	<![CDATA[
+	INSERT INTO mk_content_info
+	]]>
+	<dynamic prepend=" (  ">
+		<isNotNull property="contentSerialId" prepend=",">
+			<isNotEmpty property="contentSerialId">
+				content_serial_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentId" prepend=",">
+			<isNotEmpty property="contentId">
+				content_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentName" prepend=",">
+			<isNotEmpty property="contentName">
+				content_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentType" prepend=",">
+			<isNotEmpty property="contentType">
+				content_type
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentDesc" prepend=",">
+			<isNotEmpty property="contentDesc">
+				content_desc
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="startDate" prepend=",">
+			<isNotEmpty property="startDate">
+				start_date
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="endDate" prepend=",">
+			<isNotEmpty property="endDate">
+				end_date
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="note" prepend=",">
+			<isNotEmpty property="note">
+				note
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode" prepend=",">
+			<isNotEmpty property="statusCode">
+				status_code
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionCode" prepend=",">
+			<isNotEmpty property="regionCode">
+				region_code
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupId" prepend=",">
+			<isNotEmpty property="groupId">
+				group_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupName" prepend=",">
+			<isNotEmpty property="groupName">
+				group_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+			<isNotEmpty property="operNo">
+				oper_no
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operName" prepend=",">
+			<isNotEmpty property="operName">
+				oper_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+			<isNotEmpty property="operTime">
+				oper_time
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="templateFlag" prepend=",">
+			<isNotEmpty property="templateFlag">
+				template_flag
+			</isNotEmpty>
+		</isNotNull>
+		</dynamic>
+	    <dynamic prepend=" ) VALUES (  ">
+		<isNotNull property="contentSerialId" prepend=",">
+			<isNotEmpty property="contentSerialId">
+				#contentSerialId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentId" prepend=",">
+			<isNotEmpty property="contentId">
+				#contentId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentName" prepend=",">
+			<isNotEmpty property="contentName">
+				#contentName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentType" prepend=",">
+			<isNotEmpty property="contentType">
+				#contentType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentDesc" prepend=",">
+			<isNotEmpty property="contentDesc">
+				#contentDesc#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="startDate" prepend=",">
+			<isNotEmpty property="startDate">
+				#startDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="endDate" prepend=",">
+			<isNotEmpty property="endDate">
+				#endDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="note" prepend=",">
+			<isNotEmpty property="note">
+				#note#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode" prepend=",">
+			<isNotEmpty property="statusCode">
+				#statusCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionCode" prepend=",">
+			<isNotEmpty property="regionCode">
+				#regionCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupId" prepend=",">
+			<isNotEmpty property="groupId">
+				#groupId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupName" prepend=",">
+			<isNotEmpty property="groupName">
+				#groupName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+			<isNotEmpty property="operNo">
+				#operNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operName" prepend=",">
+			<isNotEmpty property="operName">
+				#operName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+			<isNotEmpty property="operTime">
+				#operTime#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="templateFlag" prepend=",">
+			<isNotEmpty property="templateFlag">
+				#templateFlag#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+	
+	)
+	</insert>
+	
+	<update id="updateMkContentInfo" parameterClass="java.util.Map">
+	UPDATE mk_content_info
+	<dynamic prepend=" SET ">
+		<isNotNull property="contentSerialId" prepend=",">
+		    <isNotEmpty property="contentSerialId">
+			    content_serial_id = #contentSerialId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentId" prepend=",">
+		    <isNotEmpty property="contentId">
+			    content_id = #contentId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentName" prepend=",">
+		    <isNotEmpty property="contentName">
+			    content_name = #contentName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentType" prepend=",">
+		    <isNotEmpty property="contentType">
+			    content_type = #contentType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentDesc" prepend=",">
+		    <isNotEmpty property="contentDesc">
+			    content_desc = #contentDesc#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="startDate" prepend=",">
+		    <isNotEmpty property="startDate">
+			    start_date = #startDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="endDate" prepend=",">
+		    <isNotEmpty property="endDate">
+			    end_date = #endDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="note" prepend=",">
+		    <isNotEmpty property="note">
+			    note = #note#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode" prepend=",">
+		    <isNotEmpty property="statusCode">
+			    status_code = #statusCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionCode" prepend=",">
+		    <isNotEmpty property="regionCode">
+			    region_code = #regionCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupId" prepend=",">
+		    <isNotEmpty property="groupId">
+			    group_id = #groupId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupName" prepend=",">
+		    <isNotEmpty property="groupName">
+			    group_name = #groupName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+		    <isNotEmpty property="operNo">
+			    oper_no = #operNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operName" prepend=",">
+		    <isNotEmpty property="operName">
+			    oper_name = #operName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+		    <isNotEmpty property="operTime">
+			    oper_time = #operTime#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="templateFlag" prepend=",">
+		    <isNotEmpty property="templateFlag">
+			    template_flag = #templateFlag#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+	<update id="updateMkContentInfoById" parameterClass="java.util.Map">
+	UPDATE mk_content_info
+	<dynamic prepend=" SET ">
+		<isNotNull property="contentSerialId" prepend=",">
+		    <isNotEmpty property="contentSerialId">
+			    content_serial_id = #contentSerialId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentId" prepend=",">
+		    <isNotEmpty property="contentId">
+			    content_id = #contentId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentName" prepend=",">
+		    <isNotEmpty property="contentName">
+			    content_name = #contentName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentType" prepend=",">
+		    <isNotEmpty property="contentType">
+			    content_type = #contentType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentDesc" prepend=",">
+		    <isNotEmpty property="contentDesc">
+			    content_desc = #contentDesc#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="startDate" prepend=",">
+		    <isNotEmpty property="startDate">
+			    start_date = #startDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="endDate" prepend=",">
+		    <isNotEmpty property="endDate">
+			    end_date = #endDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="note" prepend=",">
+		    <isNotEmpty property="note">
+			    note = #note#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode" prepend=",">
+		    <isNotEmpty property="statusCode">
+			    status_code = #statusCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionCode" prepend=",">
+		    <isNotEmpty property="regionCode">
+			    region_code = #regionCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupId" prepend=",">
+		    <isNotEmpty property="groupId">
+			    group_id = #groupId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupName" prepend=",">
+		    <isNotEmpty property="groupName">
+			    group_name = #groupName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+		    <isNotEmpty property="operNo">
+			    oper_no = #operNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operName" prepend=",">
+		    <isNotEmpty property="operName">
+			    oper_name = #operName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+		    <isNotEmpty property="operTime">
+			    oper_time = #operTime#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="templateFlag" prepend=",">
+		    <isNotEmpty property="templateFlag">
+			    template_flag = #templateFlag#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+
+	where content_serial_id = #contentSerialId#
+	</update>
+	
+	<delete id="deleteMkContentInfoById" parameterClass="java.util.Map">
+	DELETE FROM mk_content_info
+	WHERE content_serial_id = #contentSerialId#
+	</delete>
+	
+	<select id="selectMkContentInfoParam" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<isEmpty property="S">
+			SELECT
+			content_serial_id AS contentSerialId,
+			content_id AS contentId,
+			content_name AS contentName,
+			content_type AS contentType,
+			content_desc AS contentDesc,
+			start_date AS startDate,
+			end_date AS endDate,
+			note AS note,
+			status_code AS statusCode,
+			region_code AS regionCode,
+			group_id AS groupId,
+			group_name AS groupName,
+			oper_no AS operNo,
+			oper_name AS operName,
+			oper_time AS operTime
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM mk_content_info $W$
+	</select>
+	
+	<select id="selectMkContentInfoByBusiId" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select 
+		    a.rel_id AS relId,
+		    a.busi_id AS busiId,
+		    a.busi_type AS busiType,
+		    a.phone_type AS phoneType,
+			b.content_serial_id AS contentSerialId,
+			b.content_id AS contentId,
+			b.content_name AS contentName,
+			b.content_type AS contentType,
+			b.content_desc AS contentDesc,
+			b.start_date AS startDate,
+			b.end_date AS endDate,
+			b.note AS note,
+			b.status_code AS statusCode,
+			b.region_code AS regionCode,
+			b.group_id AS groupId,
+			b.group_name AS groupName,
+			b.oper_no AS operNo,
+			b.oper_name AS operName,
+			b.oper_time AS operTime	
+		from mk_busicontent_rel a,mk_content_info b
+		where a.content_serial_id=b.content_serial_id
+		  <isNotNull property="busiId" prepend="and">
+				<isNotEmpty property="busiId">
+					a.busi_id = #busiId#
+				</isNotEmpty>
+		  </isNotNull>
+		  <isNotNull property="busiIdList" prepend="and">
+				<isNotEmpty property="busiIdList">
+				    a.busi_id in 
+					<iterate property="busiIdList" open="(" close=")" conjunction=","> 
+						#busiIdList[]#
+					</iterate>
+				</isNotEmpty>
+		  </isNotNull>
+		  <isNotNull property="busiType" prepend="and">
+				<isNotEmpty property="busiType">
+					a.busi_type = #busiType#
+				</isNotEmpty>
+		  </isNotNull>
+		  <isNotNull property="contentType" prepend="and">
+				<isNotEmpty property="contentType">
+					b.content_type = #contentType#
+				</isNotEmpty>
+		  </isNotNull>
+	</select>
+	
+	<!-- 根据营销内容流水ID，修改营销内容名称 -->
+	
+	<update id="updateMkContentInfoNameById">
+	
+	   update mk_content_info
+		<dynamic prepend=" SET ">
+			<isNotNull property="contentName" prepend=",">
+			    <isNotEmpty property="contentName">
+				    content_name = #contentName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="startDate" prepend=",">
+			    <isNotEmpty property="startDate">
+				    start_date = #startDate#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="endDate" prepend=",">
+			    <isNotEmpty property="endDate">
+				    end_date = #endDate#
+				</isNotEmpty>
+			</isNotNull>
+		</dynamic>
+	 
+	   where content_serial_id = #contentSerialId#
+	
+	</update>
+	
+	<!-- 根据mk_parcontent_dict配置数据，查询相应数据 -->
+	<select id="selectParContent" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select 
+		content_serial_id as parContentId,
+		content_name as parContentName
+		from mk_content_info
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<!-- 根据contentSerialId复制内容信息 -->
+	<insert id="copyMkContentInfo" parameterClass="java.util.Map">
+
+	INSERT INTO mk_content_info(
+		content_serial_id,
+		content_id,
+		content_name,
+		content_type,
+		content_desc,
+		start_date,
+		end_date,
+		note,
+		status_code,
+		region_code,
+		group_id,
+		group_name,
+		oper_no,
+		oper_name,
+		oper_time,
+		template_flag)
+	select
+		#newcontentSerialId#,
+		#newcontentId#,
+		content_name,
+		content_type,
+		content_desc,
+		start_date,
+		end_date,
+		note,
+		status_code,
+		region_code,
+		group_id,
+		group_name,
+		#operNo#,
+		#operName#,
+		#operTime#,
+		template_flag
+	from mk_content_info a
+	where a.content_serial_id = #contentSerialId#
+	 <isNotNull property="content_id" prepend="and">
+				<isNotEmpty property="content_id">
+					a.content_id = #content_id#
+				</isNotEmpty>
+		  </isNotNull>
+	</insert>
+</sqlMap>

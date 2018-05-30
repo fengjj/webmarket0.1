@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkTargetValueInfo">
+	<sql id="select-all-column">
+		SELECT
+		serial_id AS serialId,
+		target_start AS targetStart,
+		target_end AS targetEnd
+		FROM mk_targetvalue_info
+	</sql>
+	<select id="selectMaxTargetValue" resultClass="java.lang.Integer">
+	select max(target_end) AS max
+	FROM mk_targetvalue_info
+	</select>
+	<insert id="insertTargetValue">
+		insert into mk_targetvalue_info(target_start,target_end,create_time) 
+		values(#targetStart#,#targetEnd#,#createTime#);
+	</insert>
+</sqlMap>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 	        
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="dbBase" class="com.sitech.market.busiobject.basicclass.dbclass.DBMysqlClass" >
+		<property name="baseDao"  ref="baseDao"></property>
+	</bean>
+	<bean id="commonDBO" class="com.sitech.market.dbo.common.impl.CommonDBO" parent="dbBase" />
+	<bean id="event" class="com.sitech.market.dbo.destribution.impl.Event" parent="dbBase">
+	</bean>
+	<bean id="mkCodenameDict" class="com.sitech.market.dbo.common.impl.MkCodenameDict" parent="dbBase"/>
+	<bean id="mkCustGroupInfo" class="com.sitech.market.dbo.destribution.impl.MkCustGroupInfo" parent="dbBase"/>
+
+	<bean id="mkEventInfo" class="com.sitech.market.dbo.destribution.impl.MkEventInfo" parent="dbBase" />
+
+	<bean id="mkActInfo" class="com.sitech.market.dbo.destribution.impl.MkActInfo"></bean>
+	<bean id="mkContentInfo" class="com.sitech.market.dbo.destribution.impl.MkContentInfo"></bean>
+	<bean id="mkBusiContentRel" class="com.sitech.market.dbo.destribution.impl.MkBusicontentRel"></bean>
+	<bean id="mkBusicustgroupRel" class="com.sitech.market.dbo.destribution.impl.MkBusicustgroupRel"></bean>
+	<bean id="mkImportbusiTmp"	 	class="com.sitech.market.dbo.destribution.impl.MkImportbusiTmp" parent="dbBase"></bean>
+	<bean id="mkImportbusiexpTmp"	 	class="com.sitech.market.dbo.destribution.impl.MkImportbusiexpTmp" parent="dbBase"></bean>
+	<bean id="mkImportbusiInfo"	 	class="com.sitech.market.dbo.destribution.impl.MkImportbusiInfo"></bean>
+	<!-- *********************************** mysql数据库表***********************************-->
+	
+
+	<bean id="queryGroupDBO" class="com.sitech.market.dbo.destribution.impl.QueryGroupDBO" >
+		<property name="codenameDict" ref="mkCodenameDict"/>
+	</bean>
+	<bean id="mkLoginmsgDict" class="com.sitech.market.dbo.common.impl.MkLoginmsgDict" parent="dbBase"></bean>
+	<bean id="mkLoginpositionRel" class="com.sitech.market.dbo.common.impl.MkLoginpositionRel" parent="dbBase" />
+	
+	<bean id="mkMonitorInfo" class="com.sitech.market.dbo.destribution.impl.MkMonitorInfo" parent="dbBase"/>	
+    <bean id="mkMylacciInfo" class="com.sitech.market.dbo.destribution.impl.MkMylacciInfo" parent="dbBase"/>
+    
+    <!-- 客户群标签DBO -->
+    <bean id="mkCusttagInfo" class="com.sitech.market.dbo.destribution.impl.MkCusttagInfo" parent="dbBase"></bean>
+    
+    <bean id="mkPhoneInfo" class="com.sitech.market.dbo.contact.impl.MkPhoneInfo"></bean>
+    <bean id="mkIndextoqueryIdx" class="com.sitech.market.dbo.trading.impl.MkIndextoqueryIdx" ></bean>
+    <bean id="mkUserordernumInfo" class="com.sitech.market.dbo.trading.impl.MkUserordernumInfo" ></bean>
+    <bean id="mkUserInfo" class="com.sitech.market.dbo.contact.impl.MkUserInfo"></bean>
+    <bean id="mkChngroupDict" class="com.sitech.market.dbo.common.impl.MkChngroupDict" parent="dbBase"></bean>
+    <bean id="mkUserprodInfo"    class="com.sitech.market.dbo.trading.impl.MkUserprodInfo" />
+    <bean id="mkActRecordInfo" class="com.sitech.market.dbo.trading.impl.MkActrecordInfo">
+		<property name="idxToQuery" ref="mkIndextoqueryIdx"></property>
+	</bean>
+	<bean id="mkCustInfo" class="com.sitech.market.dbo.trading.impl.MkCustInfo" />
+	<bean id="mkBusiordernum" class="com.sitech.market.dbo.destribution.impl.MkBusiordernumInfo" parent="dbBase" />
+	<bean id="mkUserdatauseInfo" class="com.sitech.market.dbo.trading.impl.MkUserdatauseInfo" />
+	<bean id="mkUsergroupmbrInfo" class="com.sitech.market.dbo.trading.impl.MkUsergroupmbrInfo" />
+	<bean id="mkUseraccountoutInfo" class="com.sitech.market.dbo.trading.impl.MkUseraccountoutInfo" />
+	<bean id="mkActrecordRel" class="com.sitech.market.dbo.trading.impl.MkActrecordRel"></bean>
+	<bean id="mkActrecordtermiInfo" class="com.sitech.market.dbo.trading.impl.MkActrecordtermiInfo" >
+		<property name="mkIndextoqueryIdx" ref="mkIndextoqueryIdx"></property>
+		<property name="mkActrecordRel" ref="mkActrecordRel"></property>
+	</bean>
+	<bean id="mkActcustInfo" class="com.sitech.market.dbo.trading.impl.MkActcustInfo"></bean>
+    <bean id="mkCustPhoneInfo" class="com.sitech.market.dbo.trading.impl.MkCustPhoneInfo"></bean>
+    
+</beans>

@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkLoginmsgDict">
+
+
+	<sql id="select-all-column">
+	SELECT
+			login_no AS loginNo,
+			login_name AS loginName,
+			power_right AS powerRight,
+			group_id AS groupId,
+			group_name AS groupName,
+			region_id AS regionId,
+			root_distance AS rootDistance,
+			busi_group_id AS busiGroupId,
+			busi_group_name AS busiGroupName,
+			busi_region_id AS busiRegionId,
+			busi_root_distance AS busiRootDistance,
+			province_group AS provinceGroup,
+			valid_flag AS validFlag,
+			chn_type AS chnType,
+			contact_phone AS contactPhone
+	FROM mk_loginmsg_dict
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+			<isNotNull property="loginNo" prepend="and">
+				<isNotEmpty property="loginNo">
+					login_no = #loginNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="loginName" prepend="and">
+				<isNotEmpty property="loginName">
+					login_name = #loginName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="powerRight" prepend="and">
+				<isNotEmpty property="powerRight">
+					power_right = #powerRight#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="groupId" prepend="and">
+				<isNotEmpty property="groupId">
+					group_id = #groupId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="groupName" prepend="and">
+				<isNotEmpty property="groupName">
+					group_name = #groupName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="regionId" prepend="and">
+				<isNotEmpty property="regionId">
+					region_id = #regionId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="rootDistance" prepend="and">
+				<isNotEmpty property="rootDistance">
+					root_distance = #rootDistance#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="busiGroupId" prepend="and">
+				<isNotEmpty property="busiGroupId">
+					busi_group_id = #busiGroupId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="busiGroupName" prepend="and">
+				<isNotEmpty property="busiGroupName">
+					busi_group_name = #busiGroupName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="busiRegionId" prepend="and">
+				<isNotEmpty property="busiRegionId">
+					busi_region_id = #busiRegionId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="busiRootDistance" prepend="and">
+				<isNotEmpty property="busiRootDistance">
+					busi_root_distance = #busiRootDistance#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="provinceGroup" prepend="and">
+				<isNotEmpty property="provinceGroup">
+					province_group = #provinceGroup#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="validFlag" prepend="and">
+				<isNotEmpty property="validFlag">
+					valid_flag = #validFlag#
+				</isNotEmpty>
+			</isNotNull>
+	</dynamic>
+	</sql>
+	<select id="selectMkLoginmsgDictById" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		WHERE login_no = #loginNo# and pass_word = #password#
+	</select>
+
+	<select id="selectMkLoginmsgDict" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertMkLoginmsgDict" parameterClass="java.util.Map">
+	<![CDATA[
+	INSERT INTO mk_loginmsg_dict
+	]]>
+	<dynamic prepend=" (  ">
+		<isNotNull property="loginNo" prepend=",">
+			<isNotEmpty property="loginNo">
+				login_no
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="loginName" prepend=",">
+			<isNotEmpty property="loginName">
+				login_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="powerRight" prepend=",">
+			<isNotEmpty property="powerRight">
+				power_right
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupId" prepend=",">
+			<isNotEmpty property="groupId">
+				group_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupName" prepend=",">
+			<isNotEmpty property="groupName">
+				group_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionId" prepend=",">
+			<isNotEmpty property="regionId">
+				region_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="rootDistance" prepend=",">
+			<isNotEmpty property="rootDistance">
+				root_distance
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiGroupId" prepend=",">
+			<isNotEmpty property="busiGroupId">
+				busi_group_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiGroupName" prepend=",">
+			<isNotEmpty property="busiGroupName">
+				busi_group_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiRegionId" prepend=",">
+			<isNotEmpty property="busiRegionId">
+				busi_region_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiRootDistance" prepend=",">
+			<isNotEmpty property="busiRootDistance">
+				busi_root_distance
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="provinceGroup" prepend=",">
+			<isNotEmpty property="provinceGroup">
+				province_group
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="validFlag" prepend=",">
+			<isNotEmpty property="validFlag">
+				valid_flag
+			</isNotEmpty>
+		</isNotNull>
+		</dynamic>
+	    <dynamic prepend=" ) VALUES (  ">
+		<isNotNull property="loginNo" prepend=",">
+			<isNotEmpty property="loginNo">
+				#loginNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="loginName" prepend=",">
+			<isNotEmpty property="loginName">
+				#loginName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="powerRight" prepend=",">
+			<isNotEmpty property="powerRight">
+				#powerRight#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupId" prepend=",">
+			<isNotEmpty property="groupId">
+				#groupId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupName" prepend=",">
+			<isNotEmpty property="groupName">
+				#groupName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionId" prepend=",">
+			<isNotEmpty property="regionId">
+				#regionId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="rootDistance" prepend=",">
+			<isNotEmpty property="rootDistance">
+				#rootDistance#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiGroupId" prepend=",">
+			<isNotEmpty property="busiGroupId">
+				#busiGroupId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiGroupName" prepend=",">
+			<isNotEmpty property="busiGroupName">
+				#busiGroupName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiRegionId" prepend=",">
+			<isNotEmpty property="busiRegionId">
+				#busiRegionId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiRootDistance" prepend=",">
+			<isNotEmpty property="busiRootDistance">
+				#busiRootDistance#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="provinceGroup" prepend=",">
+			<isNotEmpty property="provinceGroup">
+				#provinceGroup#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="validFlag" prepend=",">
+			<isNotEmpty property="validFlag">
+				#validFlag#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+	
+	)
+	</insert>
+	
+	<update id="updateMkLoginmsgDict" parameterClass="java.util.Map">
+	UPDATE mk_loginmsg_dict
+	<dynamic prepend=" SET ">
+		<isNotNull property="loginNo" prepend=",">
+		    <isNotEmpty property="loginNo">
+			    login_no = #loginNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="loginName" prepend=",">
+		    <isNotEmpty property="loginName">
+			    login_name = #loginName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="powerRight" prepend=",">
+		    <isNotEmpty property="powerRight">
+			    power_right = #powerRight#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupId" prepend=",">
+		    <isNotEmpty property="groupId">
+			    group_id = #groupId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupName" prepend=",">
+		    <isNotEmpty property="groupName">
+			    group_name = #groupName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionId" prepend=",">
+		    <isNotEmpty property="regionId">
+			    region_id = #regionId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="rootDistance" prepend=",">
+		    <isNotEmpty property="rootDistance">
+			    root_distance = #rootDistance#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiGroupId" prepend=",">
+		    <isNotEmpty property="busiGroupId">
+			    busi_group_id = #busiGroupId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiGroupName" prepend=",">
+		    <isNotEmpty property="busiGroupName">
+			    busi_group_name = #busiGroupName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiRegionId" prepend=",">
+		    <isNotEmpty property="busiRegionId">
+			    busi_region_id = #busiRegionId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiRootDistance" prepend=",">
+		    <isNotEmpty property="busiRootDistance">
+			    busi_root_distance = #busiRootDistance#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="provinceGroup" prepend=",">
+		    <isNotEmpty property="provinceGroup">
+			    province_group = #provinceGroup#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="validFlag" prepend=",">
+		    <isNotEmpty property="validFlag">
+			    valid_flag = #validFlag#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+	<delete id="deleteMkLoginmsgDictById" parameterClass="java.util.Map">
+	DELETE FROM mk_loginmsg_dict
+	WHERE login_no = #loginNo#
+	</delete>
+
+	<delete id="deleteMkLoginmsgDict" parameterClass="java.util.Map">
+	DELETE FROM mk_loginmsg_dict
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectMkLoginmsgDictParam" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<isEmpty property="S">
+			SELECT
+			login_no AS loginNo,
+			login_name AS loginName,
+			power_right AS powerRight,
+			group_id AS groupId,
+			group_name AS groupName,
+			region_id AS regionId,
+			root_distance AS rootDistance,
+			busi_group_id AS busiGroupId,
+			busi_group_name AS busiGroupName,
+			busi_region_id AS busiRegionId,
+			busi_root_distance AS busiRootDistance,
+			province_group AS provinceGroup,
+			valid_flag AS validFlag
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM mk_loginmsg_dict $W$
+	</select>
+</sqlMap>

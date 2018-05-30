@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:cxf="http://cxf.apache.org/core" xmlns:simple="http://cxf.apache.org/simple"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
+
+	<!-- CXF -->
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<!-- interceptors 
+	<bean id="WSS4JInInterceptor" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+		<constructor-arg>
+			<map>
+				<entry key="action" value="UsernameToken" />
+				<entry key="passwordType" value="PasswordText" />
+				<entry key="passwordCallbackClass" value="com.sitech.jcf.ws.security.WsAuthServerHandler" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean id="SAAJInInterceptor" class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
+	<bean id="InterceptorController" class="com.sitech.jcf.ws.interceptors.InterceptorController" />
+	-->
+	
+	<!-- 用于soap转换的拦截器和转换器实现 
+	<bean id="SoapConverter1" class="com.sitech.jcf.sample.soapConverter.SoapConverterImpl1"></bean>
+	
+	<bean id="ModifySoapInInterceptor" class="com.sitech.jcf.ws.interceptors.ModifySoapInInterceptor">
+		<property name="soapConverter" ref="SoapConverter1"></property>
+	</bean>
+	<bean id="ModifySoapOutInterceptor" class="com.sitech.jcf.ws.interceptors.ModifySoapOutInterceptor">
+		 <property name="soapConverter" ref="SoapConverter1"></property>
+	</bean>
+	-->
+	
+	<!--  
+	<cxf:bus>
+		<cxf:inInterceptors>
+			<ref bean="ModifySoapInInterceptor"/> 
+			<ref bean="InterceptorController" />
+		</cxf:inInterceptors>
+		<cxf:outInterceptors>
+			<ref bean="ModifySoapOutInterceptor" /> 		
+		</cxf:outInterceptors>
+		<cxf:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</cxf:features>
+	</cxf:bus>
+	-->
+
+	<!-- JMX 
+	<bean id="org.apache.cxf.management.InstrumentationManager"
+		class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
+		<property name="bus" ref="cxf" />
+		<property name="enabled" value="true" />
+		<property name="usePlatformMBeanServer" value="true" />
+		<property name="JMXServiceURL"
+			value="service:jmx:rmi:///jndi/rmi://localhost:9913/jmxrmi"></property>
+	</bean>
+	-->
+	<!-- Wiring the counter repository 
+	<bean id="CounterRepository" class="com.sitech.jcf.management.CounterRepository">
+		<property name="bus" ref="cxf" />
+	</bean>
+	-->
+
+	<!--页面标签 -->
+	<simple:server id="com_WS" serviceClass="com.sitech.jcf.service.IComManager"
+		address="/sitechTag">
+		<simple:serviceBean>
+			<ref bean="com" />
+		</simple:serviceBean>
+	</simple:server>
+	<bean id="com" class="com.sitech.jcf.service.ComManager" autowire="byName" />
+	<bean id="taglibSvc" class="com.sitech.jcf.service.TaglibServiceBean" autowire="byName" />
+
+	<!-- 统一的接口 -->
+	<simple:server id="allBeanProxy_WS" serviceClass="com.sitech.jcf.proxy.IAllBeanProxy"
+		address="/jcfServiceCall">
+		<simple:serviceBean>
+			<ref bean="allBeanProxy" />
+		</simple:serviceBean>
+	</simple:server>
+	<!-- 对于公共服务接口服务allBeanProxy不要使用*Svc方式，避免公共服务bean参与事务，避免问题。 -->
+	<bean id="allBeanProxy" class="com.sitech.jcf.proxy.Impl.AllBeanProxy" autowire="byName" />
+	
+	<!-- 作为上一个ws的替代 -->	
+	<!-- 对于公共服务接口服务ServiceCall不要使用*Svc方式，避免公共服务bean参与事务，避免问题。 -->
+	<bean id="ServiceCall" class="com.sitech.jcf.proxy.Impl.ServiceCall" autowire="byName"/>
+	<jaxws:endpoint id="ServiceCallWs" implementor="#ServiceCall"
+		implementorClass="com.sitech.jcf.proxy.IServiceCall" address="/serviceCall" />
+		
+	<bean id="singleTableSvc" class="com.sitech.jcf.service.singletable.SingleTable" autowire="byName"/>
+	<!-- <bean id="Springfactory" class="com.sitech.util.Springfactory" autowire="byName">
+		<property name="beanFactory" ref="beanFactory"></property>
+	</bean> -->
+</beans>

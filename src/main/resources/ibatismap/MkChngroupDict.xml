@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkChngroupDict">
+
+
+	<sql id="select-all-column">
+	SELECT
+		group_id AS groupId,
+		group_name AS groupName,
+		root_distance AS rootDistance,
+		region_id AS regionId,
+		oper_no AS operNo,
+		oper_name AS operName,
+		oper_time AS operTime,
+		has_child AS hasChild,
+		boss_org_code AS bossOrgCode,
+		first_class_code AS firstClassCode
+	FROM mk_chngroup_dict
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+			<isNotNull property="groupId" prepend="and">
+				<isNotEmpty property="groupId">
+					group_id = #groupId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="groupName" prepend="and">
+				<isNotEmpty property="groupName">
+					group_name = #groupName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="rootDistance" prepend="and">
+				<isNotEmpty property="rootDistance">
+					root_distance = #rootDistance#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="regionId" prepend="and">
+				<isNotEmpty property="regionId">
+					region_id = #regionId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operNo" prepend="and">
+				<isNotEmpty property="operNo">
+					oper_no = #operNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operName" prepend="and">
+				<isNotEmpty property="operName">
+					oper_name = #operName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeStart" prepend="and">
+				<isNotEmpty property="operTimeStart">
+					<![CDATA[ oper_time >= #operTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeEnd" prepend="and">
+				<isNotEmpty property="operTimeEnd">
+					<![CDATA[ oper_time <= #operTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+	</dynamic>
+	</sql>
+	<select id="selectMkChngroupDictById" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		WHERE group_id = #groupId#
+	</select>
+
+	<select id="selectMkChngroupDict" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<select id="selectMkChngroupDictByGroupId" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column" />
+		where root_distance = #rootDistance#
+		 and group_id in (select group_id from mk_chngroup_rel where parent_group_id = #groupId#)
+	</select>
+
+	<select id="selectMkChngroupDictByRootDistance" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column" />
+		where root_distance >= #root_distance# and root_distance <![CDATA[<=]]> #rootDistance#
+	</select>
+	
+	<select id="queryMkChngroupDict" parameterClass="java.util.Map" resultClass="java.util.HashMap" maxRows="500000">
+		select 
+            distinct(c.group_id) group_id,
+            c.group_name group_name,
+            b.parent_group_id region_code,
+            d.group_name region_name,
+            a.parent_group_id DISTRICT_CODE,
+            e.group_name DISTRICT_NAME 
+       from 
+       		mk_chngroup_rel a,
+            mk_chngroup_rel b,
+            mk_chngroup_dict c,
+            mk_chngroup_dict d,
+            mk_chngroup_dict e
+      where     
+            c.group_id = a.group_id
+            and a.parent_group_id = b.group_id
+            and a.parent_level = '3'
+            and b.parent_level = '2'
+            and d.group_id = b.parent_group_id
+            and d.has_child = 'Y'
+            and e.group_id = a.parent_group_id
+            and e.root_distance='3'            
+		<isNotNull property="group_id" prepend="and">
+			<isNotEmpty property="group_id">
+				a.group_id=#group_id#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="insertMkChngroupDict" parameterClass="java.util.Map">
+	INSERT INTO mk_chngroup_dict (
+		group_id,
+		group_name,
+		root_distance,
+		region_id,
+		oper_no,
+		oper_name,
+		oper_time
+	) VALUES (
+		#groupId# ,
+		#groupName# ,
+		#rootDistance# ,
+		#regionId# ,
+		#operNo# ,
+		#operName# ,
+		#operTime#     
+	)
+	</insert>
+	
+	<delete id="deleteMkChngroupDictById" parameterClass="java.util.Map">
+	DELETE FROM mk_chngroup_dict
+	WHERE group_id = #groupId#
+	</delete>
+	
+	<select id="selectMkChngroupDictByIdFirst" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select 
+			B.ASSI_FIELDVALUE,
+			A.BOSS_ORG_CODE,
+			A.FIRST_CLASS_CODE,
+			A.GROUP_ID
+		from mk_chngroup_dict a,
+			 mk_codename_dict b
+		WHERE a.group_id = #groupId#
+		  and LENGTH(a.group_id) <![CDATA[<=]]> 5
+		  and a.first_class_code in ('2','3','4','7')
+		  and SUBSTRING(A.BOSS_ORG_CODE from 1 for 2) = B.FIELD_URL
+		  and B.FIELD_URL NOT IN ('00', '0x', '99')
+		  and b.table_en_name = 'mk_regioncode_dict'
+	</select>
+</sqlMap>

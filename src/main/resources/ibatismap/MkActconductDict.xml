@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkActconductDict">
+
+	<sql id="select-all-column">
+	SELECT
+		actconduct_id AS actconductId,
+		actconduct_name AS actconductName,
+		actconduct_type AS actconductType,
+		image_path AS imagePath,
+		comp_type AS compType,
+		permission_type AS permissionType,
+		data_type AS dataType,
+		bolt_name AS boltName	
+	FROM mk_actconduct_dict
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+		<isPropertyAvailable property="actconductId" prepend="and">
+			<isNotNull property="actconductId">
+				<isNotEmpty property="actconductId">
+					actconduct_id = #actconductId#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="actconductName" prepend="and">
+			<isNotNull property="actconductName">
+				<isNotEmpty property="actconductName">
+					actconduct_name = #actconductName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="actconductType" prepend="and">
+			<isNotNull property="actconductType">
+				<isNotEmpty property="actconductType">
+					actconduct_type = #actconductType#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="imagePath" prepend="and">
+			<isNotNull property="imagePath">
+				<isNotEmpty property="imagePath">
+					image_path = #imagePath#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="compType" prepend="and">
+			<isNotNull property="compType">
+				<isNotEmpty property="compType">
+					comp_type = #compType#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="permissionType" prepend="and">
+			<isNotNull property="permissionType">
+				<isNotEmpty property="permissionType">
+					permission_type = #permissionType#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="dataType" prepend="and">
+			<isNotNull property="dataType">
+				<isNotEmpty property="dataType">
+					data_type = #dataType#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+		<isPropertyAvailable property="boltName" prepend="and">
+			<isNotNull property="boltName">
+				<isNotEmpty property="boltName">
+					bolt_name = #boltName#
+				</isNotEmpty>
+			</isNotNull>
+		</isPropertyAvailable>
+	</dynamic>
+	</sql>
+	<select id="selectMkActconductDictById" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		WHERE actconduct_id = #actconductId#
+	</select>
+
+	<select id="selectMkActconductDict" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertMkActconductDict" parameterClass="java.util.Map">
+	INSERT INTO mk_actconduct_dict (
+		actconduct_id,
+		actconduct_name,
+		actconduct_type,
+		image_path,
+		comp_type,
+		permission_type,
+		data_type,
+		bolt_name
+	) VALUES (
+		#actconductId# ,
+		#actconductName# ,
+		#actconductType# ,
+		#imagePath# ,
+		#compType# ,
+		#permissionType# ,
+		#dataType# ,
+		#boltName#     
+	)
+	</insert>
+	
+	<update id="updateMkActconductDict" parameterClass="java.util.Map">
+	UPDATE mk_actconduct_dict
+	<dynamic prepend=" SET ">
+		<isNotNull property="actconductId" prepend=",">
+			actconduct_id = #actconductId#
+		</isNotNull>
+		<isNotNull property="actconductName" prepend=",">
+			actconduct_name = #actconductName#
+		</isNotNull>
+		<isNotNull property="actconductType" prepend=",">
+			actconduct_type = #actconductType#
+		</isNotNull>
+		<isNotNull property="imagePath" prepend=",">
+			image_path = #imagePath#
+		</isNotNull>
+		<isNotNull property="compType" prepend=",">
+			comp_type = #compType#
+		</isNotNull>
+		<isNotNull property="permissionType" prepend=",">
+			permission_type = #permissionType#
+		</isNotNull>
+		<isNotNull property="dataType" prepend=",">
+			data_type = #dataType#
+		</isNotNull>
+		<isNotNull property="boltName" prepend=",">
+			bolt_name = #boltName#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+	<delete id="deleteMkActconductDictById" parameterClass="java.util.Map">
+	DELETE FROM mk_actconduct_dict
+	WHERE actconduct_id = #actconductId#
+	</delete>
+
+	<delete id="deleteMkActconductDict" parameterClass="java.util.Map">
+	DELETE FROM mk_actconduct_dict
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectMkActconductDictParam" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		
+			SELECT
+			actconduct_id AS actconductId,
+			actconduct_name AS actconductName,
+			actconduct_type AS actconductType,
+			image_path AS imagePath,
+			comp_type AS compType,
+			permission_type AS permissionType,
+			data_type AS dataType,
+			bolt_name AS boltName
+	</select>
+	
+	<select id="selectMkActcondutDictType" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		
+		select
+		b.actconduct_id AS actconductId,
+		b.actconduct_name AS actconductName,
+		b.image_path AS imagePath,
+		b.comp_type AS compType,
+		b.actconduct_type AS actconductType
+		from mk_actconduct_dict b where b.actconduct_type=#actconductType# 
+
+	</select>
+	<select id="selectMkActconductparDict" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		
+		select 
+		b.actconduct_id AS actconductId,
+		b.actconduct_name AS actconductName,
+		a.parameter_id AS parameterId,
+		a.parameter_name AS parameterName,
+		a.classname AS classname
+		from mk_actconductpar_dict a,mk_actconduct_dict b 
+		where a.actconduct_id = b.actconduct_id 
+	
+	</select>
+	
+	<select id="selectPermissionList" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		
+		select 
+		a.comp_type AS compType,
+		a.permission_type AS permissionType,
+		a.actconduct_type AS actconductType,
+		a.data_type AS dataType,
+		a.actconduct_id AS actconductId
+		from mk_actconduct_dict a
+	</select>
+	
+	
+	<select id="selectActconductName" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		
+		select 
+		actconduct_name AS actconductName
+		from mk_actconduct_dict  
+		where actconduct_id = #actconductId#
+	</select>
+</sqlMap>

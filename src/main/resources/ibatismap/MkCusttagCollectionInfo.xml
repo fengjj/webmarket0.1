@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkCusttagCollectionInfo">
+
+
+	<sql id="select-all-column">
+	SELECT
+		cust_tag_collection_id AS custTagCollectionId,
+		cust_tag_id AS custTagId,
+		login_no AS loginNo,
+		cust_tag_collection_time AS custTagCollectionTime,
+		region_id AS regionId
+	FROM mk_custtag_collection_info
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+			<isNotNull property="custTagCollectionId" prepend="and">
+				<isNotEmpty property="custTagCollectionId">
+					cust_tag_collection_id = #custTagCollectionId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="custTagId" prepend="and">
+				<isNotEmpty property="custTagId">
+					cust_tag_id = #custTagId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="loginNo" prepend="and">
+				<isNotEmpty property="loginNo">
+					login_no = #loginNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="custTagCollectionTime" prepend="and">
+				<isNotEmpty property="custTagCollectionTime">
+					cust_tag_collection_time = #custTagCollectionTime#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="regionId" prepend="and">
+				<isNotEmpty property="regionId">
+					 region_id = #regionId# 
+				</isNotEmpty>
+			</isNotNull>
+	</dynamic>
+	</sql>
+	
+	<select id="selectCusttagCollectionInfo" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	<select id="selectCusttagCollectionInfoByLoginNoAndCustTagId" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertMkCusttagCollectionInfo" parameterClass="java.util.Map">
+		<![CDATA[
+		INSERT INTO mk_custtag_collection_info
+		]]>
+		<dynamic prepend=" (  ">
+			<isNotNull property="custTagCollectionId" prepend=",">
+				<isNotEmpty property="custTagCollectionId">
+					cust_tag_collection_id
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="custTagId" prepend=",">
+				<isNotEmpty property="custTagId">
+					cust_tag_id
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="loginNo" prepend=",">
+				<isNotEmpty property="loginNo">
+					login_no
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="custTagCollectionTime" prepend=",">
+				<isNotEmpty property="custTagCollectionTime">
+					cust_tag_collection_time
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="regionId" prepend=",">
+				<isNotEmpty property="regionId">
+					region_id
+				</isNotEmpty>
+			</isNotNull>
+		</dynamic>
+	    <dynamic prepend=" ) VALUES (  ">
+	    	<isNotNull property="custTagCollectionId" prepend=",">
+				<isNotEmpty property="custTagCollectionId">
+					#custTagCollectionId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="custTagId" prepend=",">
+				<isNotEmpty property="custTagId">
+					#custTagId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="loginNo" prepend=",">
+				<isNotEmpty property="loginNo">
+					#loginNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="custTagCollectionTime" prepend=",">
+				<isNotEmpty property="custTagCollectionTime">
+					#custTagCollectionTime#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="regionId" prepend=",">
+				<isNotEmpty property="regionId">
+					 #regionId# 
+				</isNotEmpty>
+			</isNotNull>
+	    </dynamic>
+	    )
+	</insert>
+	
+	<delete id="deleteMkCusttagCollectionInfoByLoginNoAndCustTagId" parameterClass="java.util.Map">
+		DELETE FROM mk_custtag_collection_info
+		WHERE cust_tag_id = #custTagId# AND login_no = #loginNo#
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</sqlMap>

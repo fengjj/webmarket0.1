@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkActInfo">
+
+	<sql id="select-all-column">
+	    SELECT
+		act_id AS actId,
+		out_act_id AS outActId,
+		out_system_type AS outSystemType,
+		act_name AS actName,
+		act_type AS actType,
+		act_class AS actClass,
+		priority_code AS priorityCode,
+		date_format(start_date,'%Y-%m-%d') AS startDate,
+		date_format(end_date,'%Y-%m-%d') AS endDate,
+		act_desc AS actDesc,
+		note AS note,
+		status_code AS statusCode,
+		group_id AS groupId,
+		group_name AS groupName,
+		oper_no AS operNo,
+		oper_name AS operName,
+		date_format(oper_time,'%Y-%m-%d %H:%m:%s') AS operTime,
+		region_code AS regionCode,
+		act_level AS actLevel,
+		unique_busi_id AS uniqueBusiId,
+		CONCAT(DATE_FORMAT(start_date,'%Y.%m.%d'),'-',DATE_FORMAT(end_date,'%Y.%m.%d')) as validityStr
+	FROM mk_act_info
+	</sql>
+
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+			<isNotNull property="actId" prepend="and">
+				<isNotEmpty property="actId">
+					act_id = #actId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="outActId" prepend="and">
+				<isNotEmpty property="outActId">
+					out_act_id = #outActId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="outSystemType" prepend="and">
+				<isNotEmpty property="outSystemType">
+					out_system_type = #outSystemType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="actName" prepend="and">
+				<isNotEmpty property="actName">
+					act_name = #actName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="actType" prepend="and">
+				<isNotEmpty property="actType">
+					act_type = #actType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="actClass" prepend="and">
+				<isNotEmpty property="actClass">
+					act_class = #actClass#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="priorityCode" prepend="and">
+				<isNotEmpty property="priorityCode">
+					priority_code = #priorityCode#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="startDateStart" prepend="and">
+				<isNotEmpty property="startDateStart">
+					<![CDATA[ start_date >= #startDateStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="startDateEnd" prepend="and">
+				<isNotEmpty property="startDateEnd">
+					<![CDATA[ start_date <= #startDateEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="endDateStart" prepend="and">
+				<isNotEmpty property="endDateStart">
+					<![CDATA[ end_date >= #endDateStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="endDateEnd" prepend="and">
+				<isNotEmpty property="endDateEnd">
+					<![CDATA[ end_date <= #endDateEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="actDesc" prepend="and">
+				<isNotEmpty property="actDesc">
+					act_desc = #actDesc#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="note" prepend="and">
+				<isNotEmpty property="note">
+					note = #note#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="statusCode" prepend="and">
+				<isNotEmpty property="statusCode">
+					status_code = #statusCode#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="groupId" prepend="and">
+				<isNotEmpty property="groupId">
+					group_id = #groupId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="groupName" prepend="and">
+				<isNotEmpty property="groupName">
+					group_name = #groupName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operNo" prepend="and">
+				<isNotEmpty property="operNo">
+					oper_no = #operNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operName" prepend="and">
+				<isNotEmpty property="operName">
+					oper_name = #operName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeStart" prepend="and">
+				<isNotEmpty property="operTimeStart">
+					<![CDATA[ oper_time >= #operTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeEnd" prepend="and">
+				<isNotEmpty property="operTimeEnd">
+					<![CDATA[ oper_time <= #operTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="regionCode" prepend="and">
+				<isNotEmpty property="regionCode">
+					region_code = #regionCode#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="actLevel" prepend="and">
+				<isNotEmpty property="actLevel">
+					act_level = #actLevel#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="uniqueBusiId" prepend="and">
+				<isNotEmpty property="uniqueBusiId">
+					unique_busi_id = #uniqueBusiId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="actIdList" prepend="and">
+				<isNotEmpty property="actIdList">
+				    act_id in 
+					<iterate property="actIdList" open="(" close=")" conjunction=","> 
+						#actIdList[]#
+					</iterate>
+				</isNotEmpty>
+			</isNotNull>
+	</dynamic>
+	</sql>
+	<select id="selectMkActInfoById" parameterClass="java.lang.String" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		WHERE act_id = #actId#
+		ORDER BY operTime DESC
+	</select>
+
+	<select id="selectMkActInfo" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+		ORDER BY operTime DESC
+	</select>
+	
+	<select id="selectActIdsByMap"  resultClass="java.util.HashMap">
+	     select distinct(act_id) from mk_act_info 
+	     where act_type=#actType# and act_class=#actClass#
+	</select>
+	
+	<!-- 根据活动名称模糊查询 -->
+	<select id="selectMkActInfoByFuzzyActName" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	<include refid="select-all-column"/>
+	<dynamic prepend=" WHERE ">
+		<isNotNull property="actType">
+			<isNotEmpty property="actType" prepend="and">
+				act_type = #actType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actName" prepend="and">
+			<isNotEmpty property="actName">
+				<![CDATA[ 
+					act_name like CONCAT('%',#actName#,'%') 
+				]]>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend="and">
+			<isNotEmpty property="operNo">				
+					oper_no = #operNo#				
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode" prepend="and">
+			<isNotEmpty property="statusCode">
+					status_code = #statusCode#	
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend="and">
+			<isNotEmpty property="operTime">
+					oper_time = #operTime#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="startDate" prepend="and">
+			<isNotEmpty property="startDate">
+				<![CDATA[ start_date >= #startDate# ]]>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="endDate" prepend="and">
+			<isNotEmpty property="endDate">
+				<![CDATA[ end_date <= #endDate# ]]>
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+	ORDER BY operTime DESC
+	</select>
+	
+	<insert id="insertMkActInfo" parameterClass="java.util.Map">
+	<![CDATA[
+	INSERT INTO mk_act_info
+	]]>
+	<dynamic prepend=" (  ">
+		<isNotNull property="actId" prepend=",">
+			<isNotEmpty property="actId">
+				act_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outActId" prepend=",">
+			<isNotEmpty property="outActId">
+				out_act_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outSystemType" prepend=",">
+			<isNotEmpty property="outSystemType">
+				out_system_type
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actName" prepend=",">
+			<isNotEmpty property="actName">
+				act_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actType" prepend=",">
+			<isNotEmpty property="actType">
+				act_type
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actClass" prepend=",">
+			<isNotEmpty property="actClass">
+				act_class
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="priorityCode" prepend=",">
+			<isNotEmpty property="priorityCode">
+				priority_code
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="startDate" prepend=",">
+			<isNotEmpty property="startDate">
+				start_date
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="endDate" prepend=",">
+			<isNotEmpty property="endDate">
+				end_date
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actDesc" prepend=",">
+			<isNotEmpty property="actDesc">
+				act_desc
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="note" prepend=",">
+			<isNotEmpty property="note">
+				note
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode" prepend=",">
+			<isNotEmpty property="statusCode">
+				status_code
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupId" prepend=",">
+			<isNotEmpty property="groupId">
+				group_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupName" prepend=",">
+			<isNotEmpty property="groupName">
+				group_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+			<isNotEmpty property="operNo">
+				oper_no
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operName" prepend=",">
+			<isNotEmpty property="operName">
+				oper_name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+			<isNotEmpty property="operTime">
+				oper_time
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionCode" prepend=",">
+			<isNotEmpty property="regionCode">
+				region_code
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actLevel" prepend=",">
+			<isNotEmpty property="actLevel">
+				act_level
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="uniqueBusiId" prepend=",">
+			<isNotEmpty property="uniqueBusiId">
+				unique_busi_id
+			</isNotEmpty>
+		</isNotNull>
+		</dynamic>
+	    <dynamic prepend=" ) VALUES (  ">
+		<isNotNull property="actId" prepend=",">
+			<isNotEmpty property="actId">
+				#actId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outActId" prepend=",">
+			<isNotEmpty property="outActId">
+				#outActId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outSystemType" prepend=",">
+			<isNotEmpty property="outSystemType">
+				#outSystemType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actName" prepend=",">
+			<isNotEmpty property="actName">
+				#actName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actType" prepend=",">
+			<isNotEmpty property="actType">
+				#actType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actClass" prepend=",">
+			<isNotEmpty property="actClass">
+				#actClass#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="priorityCode" prepend=",">
+			<isNotEmpty property="priorityCode">
+				#priorityCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="startDate" prepend=",">
+			<isNotEmpty property="startDate">
+				#startDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="endDate" prepend=",">
+			<isNotEmpty property="endDate">
+				#endDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actDesc" prepend=",">
+			<isNotEmpty property="actDesc">
+				#actDesc#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="note" prepend=",">
+			<isNotEmpty property="note">
+				#note#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode" prepend=",">
+			<isNotEmpty property="statusCode">
+				#statusCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupId" prepend=",">
+			<isNotEmpty property="groupId">
+				#groupId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupName" prepend=",">
+			<isNotEmpty property="groupName">
+				#groupName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+			<isNotEmpty property="operNo">
+				#operNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operName" prepend=",">
+			<isNotEmpty property="operName">
+				#operName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+			<isNotEmpty property="operTime">
+				#operTime#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionCode" prepend=",">
+			<isNotEmpty property="regionCode">
+				#regionCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actLevel" prepend=",">
+			<isNotEmpty property="actLevel">
+				#actLevel#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="uniqueBusiId" prepend=",">
+			<isNotEmpty property="uniqueBusiId">
+				#uniqueBusiId#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+	
+	)
+	</insert>
+	
+	<update id="updateMkActInfo" parameterClass="java.util.Map">
+	UPDATE mk_act_info
+	<dynamic prepend=" SET ">
+		<isNotNull property="actId" prepend=",">
+		    <isNotEmpty property="actId">
+			    act_id = #actId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outActId" prepend=",">
+		    <isNotEmpty property="outActId">
+			    out_act_id = #outActId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outSystemType" prepend=",">
+		    <isNotEmpty property="outSystemType">
+			    out_system_type = #outSystemType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actName" prepend=",">
+		    <isNotEmpty property="actName">
+			    act_name = #actName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actType" prepend=",">
+		    <isNotEmpty property="actType">
+			    act_type = #actType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actClass" prepend=",">
+		    <isNotEmpty property="actClass">
+			    act_class = #actClass#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="priorityCode" prepend=",">
+		    <isNotEmpty property="priorityCode">
+			    priority_code = #priorityCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="startDate" prepend=",">
+		    <isNotEmpty property="startDate">
+			    start_date = #startDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="endDate" prepend=",">
+		    <isNotEmpty property="endDate">
+			    end_date = #endDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actDesc" prepend=",">
+		    <isNotEmpty property="actDesc">
+			    act_desc = #actDesc#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="note" prepend=",">
+		    <isNotEmpty property="note">
+			    note = #note#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode" prepend=",">
+		    <isNotEmpty property="statusCode">
+			    status_code = #statusCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupId" prepend=",">
+		    <isNotEmpty property="groupId">
+			    group_id = #groupId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupName" prepend=",">
+		    <isNotEmpty property="groupName">
+			    group_name = #groupName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+		    <isNotEmpty property="operNo">
+			    oper_no = #operNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operName" prepend=",">
+		    <isNotEmpty property="operName">
+			    oper_name = #operName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+		    <isNotEmpty property="operTime">
+			    oper_time = #operTime#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionCode" prepend=",">
+		    <isNotEmpty property="regionCode">
+			    region_code = #regionCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actLevel" prepend=",">
+		    <isNotEmpty property="actLevel">
+			    act_level = #actLevel#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="uniqueBusiId" prepend=",">
+		    <isNotEmpty property="uniqueBusiId">
+			    unique_busi_id = #uniqueBusiId#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+	<!-- 根据活动id更新活动信息 -->
+	<update id="updateMkActInfoById" parameterClass="java.util.Map">
+	UPDATE mk_act_info
+	<dynamic prepend=" SET ">
+		<isNotNull property="outActId" prepend=",">
+		    <isNotEmpty property="outActId">
+			    out_act_id = #outActId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="outSystemType" prepend=",">
+		    <isNotEmpty property="outSystemType">
+			    out_system_type = #outSystemType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actName" prepend=",">
+		    <isNotEmpty property="actName">
+			    act_name = #actName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actType" prepend=",">
+		    <isNotEmpty property="actType">
+			    act_type = #actType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actClass" prepend=",">
+		    <isNotEmpty property="actClass">
+			    act_class = #actClass#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="priorityCode" prepend=",">
+		    <isNotEmpty property="priorityCode">
+			    priority_code = #priorityCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="startDate" prepend=",">
+		    <isNotEmpty property="startDate">
+			    start_date = #startDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="endDate" prepend=",">
+		    <isNotEmpty property="endDate">
+			    end_date = #endDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actDesc" prepend=",">
+		    <isNotEmpty property="actDesc">
+			    act_desc = #actDesc#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="note" prepend=",">
+		    <isNotEmpty property="note">
+			    note = #note#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode" prepend=",">
+		    <isNotEmpty property="statusCode">
+			    status_code = #statusCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupId" prepend=",">
+		    <isNotEmpty property="groupId">
+			    group_id = #groupId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="groupName" prepend=",">
+		    <isNotEmpty property="groupName">
+			    group_name = #groupName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+		    <isNotEmpty property="operNo">
+			    oper_no = #operNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operName" prepend=",">
+		    <isNotEmpty property="operName">
+			    oper_name = #operName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+		    <isNotEmpty property="operTime">
+			    oper_time = #operTime#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionCode" prepend=",">
+		    <isNotEmpty property="regionCode">
+			    region_code = #regionCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actLevel" prepend=",">
+		    <isNotEmpty property="actLevel">
+			    act_level = #actLevel#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="uniqueBusiId" prepend=",">
+		    <isNotEmpty property="uniqueBusiId">
+			    unique_busi_id = #uniqueBusiId#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+	where act_id = #actId#
+	</update>
+	
+	<delete id="deleteMkActInfoById" parameterClass="java.lang.String">
+	DELETE FROM mk_act_info
+	WHERE act_id = #actId#
+	</delete>
+
+	<delete id="deleteMkActInfo" parameterClass="java.util.Map">
+	DELETE FROM mk_act_info
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<!--查询营销活动列表-->
+	<select id="selectAllActInfoByParam" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+			a.act_id AS actId,
+			a.out_act_id AS outActId,
+			a.out_system_type AS outSystemType,
+			a.act_name AS actName,
+			a.act_type AS actType,
+			a.act_class AS actClass,
+			b.field_desc AS actClassName,
+			a.priority_code AS priorityCode,
+			date_format(a.start_date,'%Y-%m-%d') AS startDate,
+			date_format(a.end_date,'%Y-%m-%d') AS endDate,
+			IFNULL(a.act_desc,'') AS actDesc,
+			a.note AS note,
+			a.status_code AS statusCode,
+			a.group_id AS groupId,
+			a.group_name AS groupName,
+			a.oper_no AS operNo,
+			a.oper_name AS operName,
+			date_format(a.oper_time,'%Y-%m-%d %H:%m:%s') AS operTime,
+			a.region_code AS regionCode,
+			a.act_level AS actLevel,
+			a.unique_busi_id AS uniqueBusiId,
+			
+			Concat(date_format(a.start_date,'%Y-%m-%d'),'至',date_format(a.end_date,'%Y-%m-%d')) as expDate,
+			'Y' actionFlag,
+			'0' AS orderNum
+		from mk_act_info a,mk_codename_dict b
+		where a.act_class=b.field_value and b.table_en_name='mk_actclass_dict'
+		   <isNotNull property="provinceGroup" prepend="and">
+				<isNotEmpty property="provinceGroup">
+					b.province_group = #provinceGroup#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="actType" prepend="and">
+				<isNotEmpty property="actType">
+					a.act_type = #actType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="dateFlag0" prepend="and">
+				<isNotEmpty property="dateFlag0">
+					(sysdate() between a.start_date and a.end_date) >0
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="dateFlag1" prepend="and">
+				<isNotEmpty property="dateFlag1">
+					(sysdate() between a.start_date and  date_add(a.end_date,interval 3 month)) >0
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="regionCode" prepend="and">
+				<isNotEmpty property="regionCode">
+					(a.act_level = '1' or (a.act_level != '1' and a.region_code = #regionCode#))
+				</isNotEmpty>
+			</isNotNull>
+			
+			<isNotNull property="statusCodeStr" prepend="and">
+				<isNotEmpty property="statusCodeStr">
+					instr(#statusCodeStr#,Concat('|',a.status_code,'|'))>0
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="statusCode" prepend="and">
+				<isNotEmpty property="statusCode">
+					a.status_code=#statusCode#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="flag4" prepend="and">
+				<isNotEmpty property="flag4">
+					(a.act_class not in('07', '14', '43', '15', '45') or (a.act_class = '07' and a.mix_flag = 'Y') )
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="mainServType" prepend="and">
+				<isNotEmpty property="mainServType">
+					ifnull(a.main_serv_type, '-1') = #mainServType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="flag12" prepend="and">
+				<isNotEmpty property="flag12">
+					  a.act_class = #flag12#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="flag28" prepend="and">
+				<isNotEmpty property="flag28">
+					  a.act_class = #flag28#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="actClass" prepend="and">
+				<isNotEmpty property="actClass">
+					a.act_class = #actClass#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="actClassList" prepend="and">
+				<isNotEmpty property="actClassList">
+					a.act_class in
+					<iterate property="actClassList" open="(" close=")" conjunction=","> 
+						 #actClassList[]#
+					</iterate>
+				</isNotEmpty>
+			</isNotNull>
+			
+			<isNotNull property="NotActType" prepend="and">
+				<isNotEmpty property="NotActType">
+					a.act_type != #NotActType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="NotActClass" prepend="and">
+				<isNotEmpty property="NotActClass">
+					a.act_class not in ('43', '15', '45')
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="flag6" prepend="and">
+				<isNotEmpty property="flag6">
+				    ((instr('|0|4|',Concat('|',g.choice_code,'|'))>0 and (a.act_class not in('07', '14', '43', '15', '45') or (a.act_class = '07' and a.mix_flag = 'Y')))
+                     or 
+                    (instr('|1|2|3|5|6|7|8|',Concat('|',g.choice_code,'|'))>0 and act_class not in ('43', '15', '45') and act_type != '04'))
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="mistyActName" prepend="and">
+				<isNotEmpty property="mistyActName">
+					<![CDATA[ a.act_name like concat('%', #mistyActName#, '%') ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="isGtendDate" prepend="and">
+				<isNotEmpty property="isGtendDate">
+					<isEqual property="isGtendDate" compareValue="Y">
+						<![CDATA[sysdate() <= a.end_date and sysdate() >= a.start_date]]>
+					</isEqual>
+				</isNotEmpty>
+			</isNotNull>
+			<![CDATA[ORDER BY operTime DESC]]>		
+	</select>
+	
+	<select id="selectActSumByActType" resultClass="java.util.HashMap">
+		SELECT 
+			COUNT(act_type) actSum,
+			act_type actType 
+		FROM mk_act_info 
+		where 1=1
+		<isNotNull property="operNo" prepend="and">
+			<isNotEmpty property="operNo">				
+					oper_no = #operNo#				
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode" prepend="and">
+			<isNotEmpty property="statusCode">
+					status_code = #statusCode#	
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend="and">
+			<isNotEmpty property="operTime">
+					oper_time = #operTime#
+			</isNotEmpty>
+		</isNotNull> 
+		<isNotNull property="startDate" prepend="and">
+			<isNotEmpty property="startDate">
+				<![CDATA[ start_date >= #startDateStart# ]]>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="endDate" prepend="and">
+			<isNotEmpty property="endDate">
+				<![CDATA[ end_date <= #endDate# ]]>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="actName" prepend="and">
+			<isNotEmpty property="actName">
+				<![CDATA[ 
+					act_name like CONCAT('%',#actName#,'%') 
+				]]>
+			</isNotEmpty>
+		</isNotNull> 
+		GROUP BY act_type 
+	</select>
+	 
+	<select id="selectMKsmscfgInfoById" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		select 	
+				SMS_INFO	AS smsInfo,
+				SEND_FLAG   AS sendFlag
+  		from 
+  				MK_SMSCFG_INFO
+  				
+  		<dynamic prepend=" WHERE ">
+		<isNotNull property="busiType">
+			<isNotEmpty property="busiType" prepend="and">
+				busi_type = #busiType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sendFlag">
+			<isNotEmpty property="sendFlag" prepend="and">
+				send_flag = #sendFlag#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiId">
+			<isNotEmpty property="busiId" prepend="and">
+				busi_id = #busiId#
+			</isNotEmpty>
+		</isNotNull>
+		</dynamic>			
+	</select>
+	
+	
+	<insert id="insertMkSmscfgInfo" parameterClass="java.util.Map">
+	INSERT INTO mk_smscfg_info (
+		sms_id,
+		sms_name,
+		template_id,
+		busi_type,
+		busi_id,
+		busi_name,
+		seq_num,
+		sms_type,
+		sms_info,
+		note,
+		send_flag,
+		oper_no,
+		oper_name,
+		oper_time,
+		send_time,
+		send_timetype
+	) VALUES (
+		#smsId# ,
+		#smsName# ,
+		#templateId# ,
+		#busiType# ,
+		#busiId# ,
+		#busiName# ,
+		#seqNum# ,
+		#smsType# ,
+		#smsInfo# ,
+		#note# ,
+		#sendFlag# ,
+		#operNo# ,
+		#operName# ,
+		#operTime#,
+		#sendTime#,
+		#sendTimetype#
+	)
+	</insert>
+
+	<delete id="deleteMkSmscfgInfo" parameterClass="java.lang.String">
+	DELETE FROM mk_smscfg_info
+	WHERE busi_id = #busiId#
+	</delete>
+	
+</sqlMap>

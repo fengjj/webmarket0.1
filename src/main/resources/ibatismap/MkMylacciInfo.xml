@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkMylacciInfo">
+
+
+	<sql id="select-all-column">
+	SELECT
+		serial_id AS serialId,
+		name AS name,
+		lacci_group AS lacciGroup,
+		img_url AS imgUrl,
+		oper_no AS operNo,
+		oper_time AS operTime,
+		region_id AS regionId	
+	FROM mk_mylacci_info
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+			<isNotNull property="serialId" prepend="and">
+				<isNotEmpty property="serialId">
+					serial_id = #serialId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="name" prepend="and">
+				<isNotEmpty property="name">
+					name = #name#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="lacciGroup" prepend="and">
+				<isNotEmpty property="lacciGroup">
+					lacci_group = #lacciGroup#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="imgUrl" prepend="and">
+				<isNotEmpty property="imgUrl">
+					img_url = #imgUrl#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operNo" prepend="and">
+				<isNotEmpty property="operNo">
+					oper_no = #operNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTime" prepend="and">
+				<isNotEmpty property="operTime">
+					oper_time = #operTime#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="regionId" prepend="and">
+				<isNotEmpty property="regionId">
+					region_id = #regionId#
+				</isNotEmpty>
+			</isNotNull>
+	</dynamic>
+	</sql>
+	<select id="selectMkMylacciInfoById" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		WHERE serial_id = #serialId#
+	</select>
+
+	<select id="selectMkMylacciInfo" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	<select id="selectMkMylacciInfoBy" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="serialId" prepend="and">
+				<isNotEmpty property="serialId">
+					serial_id = #serialId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="name" prepend="and">
+				<isNotEmpty property="name">
+					name like concat('%', #name#, '%')
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="lacciGroup" prepend="and">
+				<isNotEmpty property="lacciGroup">
+					lacci_group = #lacciGroup#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="imgUrl" prepend="and">
+				<isNotEmpty property="imgUrl">
+					img_url = #imgUrl#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operNo" prepend="and">
+				<isNotEmpty property="operNo">
+					oper_no = #operNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeStart" prepend="and">
+				<isNotEmpty property="operTimeStart">
+					<![CDATA[ oper_time >= #operTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeEnd" prepend="and">
+				<isNotEmpty property="operTimeEnd">
+					<![CDATA[ oper_time <= #operTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="regionId" prepend="and">
+				<isNotEmpty property="regionId">
+					region_id = #regionId#
+				</isNotEmpty>
+			</isNotNull>
+	</dynamic>
+	</select>
+	
+	<insert id="insertMkMylacciInfo" parameterClass="java.util.Map">
+	<![CDATA[
+	INSERT INTO mk_mylacci_info
+	]]>
+	<dynamic prepend=" (  ">
+		<isNotNull property="serialId" prepend=",">
+			<isNotEmpty property="serialId">
+				serial_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="name" prepend=",">
+			<isNotEmpty property="name">
+				name
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="lacciGroup" prepend=",">
+			<isNotEmpty property="lacciGroup">
+				lacci_group
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="imgUrl" prepend=",">
+			<isNotEmpty property="imgUrl">
+				img_url
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+			<isNotEmpty property="operNo">
+				oper_no
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+				<isNotEmpty property="operTime">
+					oper_time
+				</isNotEmpty>
+			</isNotNull>
+		<isNotNull property="regionId" prepend=",">
+			<isNotEmpty property="regionId">
+				region_id
+			</isNotEmpty>
+		</isNotNull>
+		</dynamic>
+	    <dynamic prepend=" ) VALUES (  ">
+		<isNotNull property="serialId" prepend=",">
+			<isNotEmpty property="serialId">
+				#serialId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="name" prepend=",">
+			<isNotEmpty property="name">
+				#name#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="lacciGroup" prepend=",">
+			<isNotEmpty property="lacciGroup">
+				#lacciGroup#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="imgUrl" prepend=",">
+			<isNotEmpty property="imgUrl">
+				#imgUrl#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+			<isNotEmpty property="operNo">
+				#operNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+			<isNotEmpty property="operTime">
+				#operTime#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionId" prepend=",">
+			<isNotEmpty property="regionId">
+				#regionId#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+	
+	)
+	</insert>
+	
+	<update id="updateMkMylacciInfo" parameterClass="java.util.Map">
+	UPDATE mk_mylacci_info
+	<dynamic prepend=" SET ">
+		<isNotNull property="serialId" prepend=",">
+		    <isNotEmpty property="serialId">
+			    serial_id = #serialId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="name" prepend=",">
+		    <isNotEmpty property="name">
+			    name = #name#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="lacciGroup" prepend=",">
+		    <isNotEmpty property="lacciGroup">
+			    lacci_group = #lacciGroup#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="imgUrl" prepend=",">
+		    <isNotEmpty property="imgUrl">
+			    img_url = #imgUrl#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+		    <isNotEmpty property="operNo">
+			    oper_no = #operNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regionId" prepend=",">
+		    <isNotEmpty property="regionId">
+			    region_id = #regionId#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+	<delete id="deleteMkMylacciInfoById" parameterClass="java.util.Map">
+	DELETE FROM mk_mylacci_info
+	WHERE serial_id = #serialId#
+	</delete>
+
+	<delete id="deleteMkMylacciInfo" parameterClass="java.util.Map">
+	DELETE FROM mk_mylacci_info
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectMkMylacciInfoParam" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<isEmpty property="S">
+			SELECT
+			serial_id AS serialId,
+			name AS name,
+			lacci_group AS lacciGroup,
+			img_url AS imgUrl,
+			oper_no AS operNo,
+			region_id AS regionId
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM mk_mylacci_info $W$
+	</select>
+</sqlMap>

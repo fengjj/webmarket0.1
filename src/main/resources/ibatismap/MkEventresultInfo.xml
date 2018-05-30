@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkEventresultInfo">
+
+
+	<sql id="select-all-column">
+	SELECT
+		serial_id AS serialId,
+		event_id AS eventId,
+		event_type AS eventType,
+		phone_no AS phoneNo,
+		user_id AS userId,
+		used_data AS usedData,
+		used_data_percent AS usedDataPercent,
+		add_upper AS addUpper,
+		left_data AS leftData,
+		data_type AS dataType,
+		used_time AS usedTime	
+	FROM mk_eventresult_info
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+			<isNotNull property="serialId" prepend="and">
+				<isNotEmpty property="serialId">
+					serial_id = #serialId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="eventId" prepend="and">
+				<isNotEmpty property="eventId">
+					event_id = #eventId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="eventType" prepend="and">
+				<isNotEmpty property="eventType">
+					event_type = #eventType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="phoneNo" prepend="and">
+				<isNotEmpty property="phoneNo">
+					phone_no = #phoneNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="userId" prepend="and">
+				<isNotEmpty property="userId">
+					user_id = #userId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="usedData" prepend="and">
+				<isNotEmpty property="usedData">
+					used_data = #usedData#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="usedDataPercent" prepend="and">
+				<isNotEmpty property="usedDataPercent">
+					used_data_percent = #usedDataPercent#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="addUpper" prepend="and">
+				<isNotEmpty property="addUpper">
+					add_upper = #addUpper#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="dataType" prepend="and">
+				<isNotEmpty property="dataType">
+					data_type = #dataType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="usedTimeStart" prepend="and">
+				<isNotEmpty property="usedTimeStart">
+					<![CDATA[ used_time >= #usedTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="usedTimeEnd" prepend="and">
+				<isNotEmpty property="usedTimeEnd">
+					<![CDATA[ used_time <= #usedTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+	</dynamic>
+	</sql>
+	<select id="selectMkEventresultInfoById" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		WHERE serial_id = #serialId#
+	</select>
+
+	<select id="selectMkEventresultInfo" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+		order by used_time desc
+	</select>
+	<select id="selectMkEventresultInfoCount" parameterClass="java.lang.String" resultClass="java.util.HashMap">
+		select count(*) allCount from mk_eventresult_info
+		where event_id = #eventId#
+	</select>
+	
+	<select id="selectMkEventresultInfoGroupByPhoneNo" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		 e,(
+			select max(e1.used_time) maxtime,max(e1.data_type) datatype 
+				from mk_eventresult_info e1 where e1.phone_no=#phoneNo#
+   			 	group by e1.data_type) m
+		where e.used_time = m.maxtime and e.data_type = m.datatype
+		 
+	</select>
+	
+	<select id="selectUsedDataTrac" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select st hour,max(used_data) data from (
+			select e.used_time,SUBSTR(e.used_time FROM 1 FOR 10) st ,e.phone_no,e.used_data
+  			from mk_eventresult_info e 
+			where e.phone_no = #phoneNo# and e.event_id = #eventId#
+			<isNotNull property="startTime" prepend="and">
+			<isNotEmpty property="startTime">
+				 e.used_time > #startTime#
+			</isNotEmpty>
+			</isNotNull>
+			) t
+		group by st	order by st
+	</select>
+	
+	<insert id="insertMkEventresultInfo" parameterClass="java.util.Map">
+	<![CDATA[
+	INSERT INTO mk_eventresult_info
+	]]>
+	<dynamic prepend=" (  ">
+		<isNotNull property="serialId" prepend=",">
+			<isNotEmpty property="serialId">
+				serial_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="eventId" prepend=",">
+			<isNotEmpty property="eventId">
+				event_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="eventType" prepend=",">
+			<isNotEmpty property="eventType">
+				event_type
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="phoneNo" prepend=",">
+			<isNotEmpty property="phoneNo">
+				phone_no
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId" prepend=",">
+			<isNotEmpty property="userId">
+				user_id
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="usedData" prepend=",">
+			<isNotEmpty property="usedData">
+				used_data
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="usedDataPercent" prepend=",">
+			<isNotEmpty property="usedDataPercent">
+				used_data_percent
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="addUpper" prepend=",">
+			<isNotEmpty property="addUpper">
+				add_upper
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="dataType" prepend=",">
+			<isNotEmpty property="dataType">
+				data_type
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="usedTime" prepend=",">
+			<isNotEmpty property="usedTime">
+				used_time
+			</isNotEmpty>
+		</isNotNull>
+		</dynamic>
+	    <dynamic prepend=" ) VALUES (  ">
+		<isNotNull property="serialId" prepend=",">
+			<isNotEmpty property="serialId">
+				#serialId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="eventId" prepend=",">
+			<isNotEmpty property="eventId">
+				#eventId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="eventType" prepend=",">
+			<isNotEmpty property="eventType">
+				#eventType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="phoneNo" prepend=",">
+			<isNotEmpty property="phoneNo">
+				#phoneNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId" prepend=",">
+			<isNotEmpty property="userId">
+				#userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="usedData" prepend=",">
+			<isNotEmpty property="usedData">
+				#usedData#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="usedDataPercent" prepend=",">
+			<isNotEmpty property="usedDataPercent">
+				#usedDataPercent#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="addUpper" prepend=",">
+			<isNotEmpty property="addUpper">
+				#addUpper#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="dataType" prepend=",">
+			<isNotEmpty property="dataType">
+				#dataType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="usedTime" prepend=",">
+			<isNotEmpty property="usedTime">
+				#usedTime#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+	
+	)
+	</insert>
+	
+	<update id="updateMkEventresultInfo" parameterClass="java.util.Map">
+	UPDATE mk_eventresult_info
+	<dynamic prepend=" SET ">
+		<isNotNull property="serialId" prepend=",">
+		    <isNotEmpty property="serialId">
+			    serial_id = #serialId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="eventId" prepend=",">
+		    <isNotEmpty property="eventId">
+			    event_id = #eventId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="eventType" prepend=",">
+		    <isNotEmpty property="eventType">
+			    event_type = #eventType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="phoneNo" prepend=",">
+		    <isNotEmpty property="phoneNo">
+			    phone_no = #phoneNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId" prepend=",">
+		    <isNotEmpty property="userId">
+			    user_id = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="usedData" prepend=",">
+		    <isNotEmpty property="usedData">
+			    used_data = #usedData#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="usedDataPercent" prepend=",">
+		    <isNotEmpty property="usedDataPercent">
+			    used_data_percent = #usedDataPercent#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="addUpper" prepend=",">
+		    <isNotEmpty property="addUpper">
+			    add_upper = #addUpper#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="dataType" prepend=",">
+		    <isNotEmpty property="dataType">
+			    data_type = #dataType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="usedTime" prepend=",">
+		    <isNotEmpty property="usedTime">
+			    used_time = #usedTime#
+			</isNotEmpty>
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+	
+</sqlMap>

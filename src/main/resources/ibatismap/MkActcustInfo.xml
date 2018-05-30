@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkActcustInfo">
+	<sql id="select-all-column">
+		SELECT
+			serial_id as serialId,
+			cust_group_id as custGroupId,
+			id_no as idNo,
+			phone_no as phoneNo,
+			imp_time as impTime,
+			STATUS_CODE as statusCode,
+			upload_seq_no as uploadSeqNo,
+			oper_no as operNo,
+			oper_name as operName,
+			oper_time as operTime
+		FROM mk_actcust_info
+	</sql>
+	<sql id="where-all-condition">
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="custGroupId" prepend="and">
+				<isNotEmpty property="custGroupId">
+					cust_group_id =
+					#custGroupId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="idNo" prepend="and">
+				<isNotEmpty property="idNo">
+					id_no in(
+					#idNo# )
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="phoneNo" prepend="and">
+				<isNotEmpty property="phoneNo">
+					phone_no =
+					#phoneNo#
+				</isNotEmpty>
+			</isNotNull>
+		</dynamic>
+	</sql>
+	<!--单个目标客户群明细  -->
+	<select id="getActcustById" parameterClass="java.util.Map" 
+		resultClass="java.util.HashMap">
+		<include refid="select-all-column" />
+		<include refid="where-all-condition" />
+	</select>
+	<!-- 插入 -->
+	<insert id="insertMkActcustInfo" parameterClass="java.util.Map">
+		insert into mk_actcust_info (
+			serial_id,
+			cust_group_id,
+			id_no,
+			phone_no,
+			imp_time,
+			status_code,
+			upload_seq_no,
+			oper_no,
+			oper_name,
+			oper_time
+			) values(
+			#serialId#,
+			#custGroupId# ,
+			#idNo# ,
+			#phoneNo# ,
+			#impTime# ,
+			#statusCode# ,
+			#uploadSeqNo# ,
+			#operNo# ,
+			#operName# ,
+			#operTime# 
+			)
+	</insert>
+
+
+</sqlMap>

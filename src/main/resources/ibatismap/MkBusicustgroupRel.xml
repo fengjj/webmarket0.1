@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkBusicustgroupRel">
+	<sql id="select-all-column">
+	SELECT
+		serial_id AS serialId,
+		busi_id AS busiId,
+		busi_type AS busiType,
+		choice_code AS choiceCode,
+		cust_group_id AS custGroupId,
+		start_date AS startDate,
+		end_date AS endDate,
+		note AS note,
+		recommend_type AS recommendType,
+		oper_no AS operNo,
+		oper_name AS operName,
+		oper_time AS operTime,
+		status_code AS statusCode	
+	FROM mk_busicustgroup_rel
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+			<isNotNull property="serialId" prepend="and">
+				<isNotEmpty property="serialId">
+					serial_id = #serialId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="busiId" prepend="and">
+				<isNotEmpty property="busiId">
+					busi_id = #busiId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="busiType" prepend="and">
+				<isNotEmpty property="busiType">
+					busi_type = #busiType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="choiceCode" prepend="and">
+				<isNotEmpty property="choiceCode">
+					choice_code = #choiceCode#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="custGroupId" prepend="and">
+				<isNotEmpty property="custGroupId">
+					cust_group_id = #custGroupId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="startDateStart" prepend="and">
+				<isNotEmpty property="startDateStart">
+					<![CDATA[ start_date >= #startDateStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="startDateEnd" prepend="and">
+				<isNotEmpty property="startDateEnd">
+					<![CDATA[ start_date <= #startDateEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="endDateStart" prepend="and">
+				<isNotEmpty property="endDateStart">
+					<![CDATA[ end_date >= #endDateStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="endDateEnd" prepend="and">
+				<isNotEmpty property="endDateEnd">
+					<![CDATA[ end_date <= #endDateEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="note" prepend="and">
+				<isNotEmpty property="note">
+					note = #note#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="recommendType" prepend="and">
+				<isNotEmpty property="recommendType">
+					recommend_type = #recommendType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operNo" prepend="and">
+				<isNotEmpty property="operNo">
+					oper_no = #operNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operName" prepend="and">
+				<isNotEmpty property="operName">
+					oper_name = #operName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeStart" prepend="and">
+				<isNotEmpty property="operTimeStart">
+					<![CDATA[ oper_time >= #operTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeEnd" prepend="and">
+				<isNotEmpty property="operTimeEnd">
+					<![CDATA[ oper_time <= #operTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="custGroupIdStr" prepend="and">
+				<isNotEmpty property="custGroupIdStr">
+					instr(#custGroupIdStr#,cust_group_id)>0
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="busiIdList" prepend="and">
+				<isNotEmpty property="busiIdList">
+				    busi_id in 
+					<iterate property="busiIdList" open="(" close=")" conjunction=","> 
+						#busiIdList[]#
+					</iterate>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="statusCode" prepend="and">
+				<isNotEmpty property="statusCode">
+					status_code = #statusCode#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="startDateDay" prepend="and">
+				<isNotEmpty property="startDateDay">
+					<![CDATA[ DATE_FORMAT(start_date, '%Y-%m-%d') = DATE_FORMAT(#startDateDay#, '%Y-%m-%d') ]]>
+				</isNotEmpty>
+			</isNotNull>
+	</dynamic>
+	</sql>
+	<select id="selectMkBusicustgroupRelById" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		WHERE serial_id = #serialId#
+	</select>
+	<!-- 查询全部关系信息hanzh_bj -->
+	<select id="selectMkBusicustgroupRel" parameterClass="java.util.Map" resultClass="java.util.HashMap" maxRows="100000">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<select id="selectMkCustgroupInfo" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	SELECT
+		r.serial_id AS serialId,
+		r.busi_id AS busiId,
+		r.busi_type AS busiTypeCode,
+		r.choice_code AS choiceCode,
+		r.cust_group_id AS custGroupId,
+		r.start_date AS startDate,
+		date_format(r.start_date,'%Y-%m-%d') AS startDateStr,
+		r.end_date AS endDate,
+		r.note AS note,
+		r.recommend_type AS recommendType,
+		r.oper_no AS operNo,
+		r.oper_name AS operName,
+		r.oper_time AS operTime,
+		r.status_code AS statusCode,
+		c.cust_group_name AS custGroupName,
+		c.cust_group_desc AS custGroupDesc,
+		c.cust_num AS custNum,
+		n.field_desc AS busiType
+	FROM mk_busicustgroup_rel r,mk_custgroup_info c,mk_codename_dict n
+	where
+	r.cust_group_id = c.cust_group_id
+	and n.table_en_name ='mk_busitype_dict'
+	and n.field_value = r.busi_type
+		<isNotNull property="busiId" prepend="and">
+			<isNotEmpty property="busiId">
+				r.busi_id = #busiId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="busiType" prepend="and">
+			<isNotEmpty property="busiType">
+				r.busi_type = #busiType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="custGroupId" prepend="and">
+			<isNotEmpty property="custGroupId">
+				r.cust_group_id = #custGroupId#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="insertMkBusicustgroupRel" parameterClass="java.util.Map">
+	INSERT INTO mk_busicustgroup_rel (
+		serial_id,
+		busi_id,
+		busi_type,
+		choice_code,
+		cust_group_id,
+		start_date,
+		end_date,
+		note,
+		recommend_type,
+		oper_no,
+		oper_name,
+		oper_time,
+		status_code
+	) VALUES (
+		#serialId# ,
+		#busiId# ,
+		#busiType# ,
+		#choiceCode# ,
+		#custGroupId# ,
+		#startDate# ,
+		#endDate# ,
+		#note# ,
+		#recommendType# ,
+		#operNo# ,
+		#operName# ,
+		#operTime# ,
+		#statusCode# 
+	)
+	</insert>
+	
+	<update id="updateMkBusicustgroupRelById" parameterClass="java.util.Map">
+	UPDATE mk_busicustgroup_rel
+	<dynamic prepend=" SET ">
+		<isNotNull property="busiId" prepend=",">
+			busi_id = #busiId#
+		</isNotNull>
+		<isNotNull property="busiType" prepend=",">
+			busi_type = #busiType#
+		</isNotNull>
+		<isNotNull property="choiceCode" prepend=",">
+			choice_code = #choiceCode#
+		</isNotNull>
+		<isNotNull property="custGroupId" prepend=",">
+			cust_group_id = #custGroupId#
+		</isNotNull>
+		<isNotNull property="startDate" prepend=",">
+			start_date = #startDate#
+		</isNotNull>
+		<isNotNull property="endDate" prepend=",">
+			end_date = #endDate#
+		</isNotNull>
+		<isNotNull property="note" prepend=",">
+			note = #note#
+		</isNotNull>
+		<isNotNull property="recommendType" prepend=",">
+			recommend_type = #recommendType#
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+			oper_no = #operNo#
+		</isNotNull>
+		<isNotNull property="operName" prepend=",">
+			oper_name = #operName#
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+			oper_time = #operTime#
+		</isNotNull>
+		<isNotNull property="statusCode" prepend=",">
+			status_code = #statusCode#
+		</isNotNull>
+		<isNotNull property="addOneMonth" prepend=",">
+			start_date = DATE_ADD(start_date,INTERVAL 1 MONTH)
+		</isNotNull>
+	</dynamic>
+	where serial_id = #serialId#
+	</update>
+	
+	<update id="updateMkBusicustgroupRelForBusiId" parameterClass="java.util.Map">
+	UPDATE mk_busicustgroup_rel
+	set busi_id = #newBusiId#
+	where busi_id = #oldBusiId#
+	</update>
+	
+	<delete id="deleteMkBusicustgroupRelById" parameterClass="java.lang.String">
+	DELETE FROM mk_busicustgroup_rel
+	WHERE serial_id = #serialId#
+	</delete>
+	
+	<delete id="deleteMkBusicustgroupRelByBusiId" parameterClass="java.util.Map">
+	DELETE FROM mk_busicustgroup_rel
+	WHERE busi_id = #busiId#
+	and busi_type = #busiType#
+	</delete>
+	
+	<!-- 根据业务id，更新客户群信息 add by wangdw -->
+	<update id="updateByBusi" parameterClass="java.util.Map">
+	UPDATE mk_busicustgroup_rel
+	<dynamic prepend=" SET ">
+		<isNotNull property="choiceCode" prepend=",">
+			choice_code = #choiceCode#
+		</isNotNull>
+		<isNotNull property="custGroupId" prepend=",">
+			cust_group_id = #custGroupId#
+		</isNotNull>
+		<isNotNull property="startDate" prepend=",">
+			start_date = #startDate#
+		</isNotNull>
+		<isNotNull property="endDate" prepend=",">
+			end_date = #endDate#
+		</isNotNull>
+		<isNotNull property="note" prepend=",">
+			note = #note#
+		</isNotNull>
+		<isNotNull property="recommendType" prepend=",">
+			recommend_type = #recommendType#
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+			oper_no = #operNo#
+		</isNotNull>
+		<isNotNull property="operName" prepend=",">
+			oper_name = #operName#
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+			oper_time = #operTime#
+		</isNotNull>
+		<isNotNull property="statusCode" prepend=",">
+			status_code = #statusCode#
+		</isNotNull>
+		<isNotNull property="addOneMonth" prepend=",">
+			start_date = DATE_ADD(start_date,INTERVAL 1 MONTH)
+		</isNotNull>
+	</dynamic>
+	WHERE busi_id = #busiId#
+	and busi_type = #busiType#
+	</update>
+</sqlMap>

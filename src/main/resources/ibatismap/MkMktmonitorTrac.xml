@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkMktmonitorTrac">
+
+
+	<sql id="select-all-column">
+	SELECT
+		trac_id AS tracId,
+		update_type AS updateType,
+		monitor_id AS monitorId,
+		monitor_name AS monitorName,
+		busi_type AS busiType,
+		busi_id AS busiId,
+		monitor_type AS monitorType,
+		monitor_content AS monitorContent,
+		warning_value AS warningValue,
+		warning_rate AS warningRate,
+		warning_sms AS warningSms,
+		oper_no AS operNo,
+		oper_name AS operName,
+		oper_time AS operTime,
+		update_no AS updateNo,
+		update_name AS updateName,
+		update_time AS updateTime	
+	FROM mk_mktmonitor_trac
+	</sql>
+	
+	<sql id="where-all-condition">
+	<dynamic prepend=" WHERE ">
+			<isNotNull property="tracId" prepend="and">
+				<isNotEmpty property="tracId">
+					trac_id = #tracId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="updateType" prepend="and">
+				<isNotEmpty property="updateType">
+					update_type = #updateType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="monitorId" prepend="and">
+				<isNotEmpty property="monitorId">
+					monitor_id = #monitorId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="monitorName" prepend="and">
+				<isNotEmpty property="monitorName">
+					monitor_name = #monitorName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="busiType" prepend="and">
+				<isNotEmpty property="busiType">
+					busi_type = #busiType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="busiId" prepend="and">
+				<isNotEmpty property="busiId">
+					busi_id = #busiId#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="monitorType" prepend="and">
+				<isNotEmpty property="monitorType">
+					monitor_type = #monitorType#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="monitorContent" prepend="and">
+				<isNotEmpty property="monitorContent">
+					monitor_content = #monitorContent#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="warningValue" prepend="and">
+				<isNotEmpty property="warningValue">
+					warning_value = #warningValue#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="warningRate" prepend="and">
+				<isNotEmpty property="warningRate">
+					warning_rate = #warningRate#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="warningSms" prepend="and">
+				<isNotEmpty property="warningSms">
+					warning_sms = #warningSms#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operNo" prepend="and">
+				<isNotEmpty property="operNo">
+					oper_no = #operNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operName" prepend="and">
+				<isNotEmpty property="operName">
+					oper_name = #operName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeStart" prepend="and">
+				<isNotEmpty property="operTimeStart">
+					<![CDATA[ oper_time >= #operTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="operTimeEnd" prepend="and">
+				<isNotEmpty property="operTimeEnd">
+					<![CDATA[ oper_time <= #operTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="updateNo" prepend="and">
+				<isNotEmpty property="updateNo">
+					update_no = #updateNo#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="updateName" prepend="and">
+				<isNotEmpty property="updateName">
+					update_name = #updateName#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="updateTimeStart" prepend="and">
+				<isNotEmpty property="updateTimeStart">
+					<![CDATA[ update_time >= #updateTimeStart# ]]>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="updateTimeEnd" prepend="and">
+				<isNotEmpty property="updateTimeEnd">
+					<![CDATA[ update_time <= #updateTimeEnd# ]]>
+				</isNotEmpty>
+			</isNotNull>
+	</dynamic>
+	</sql>
+	<select id="selectMkMktmonitorTracById" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		WHERE trac_id = #tracId#
+	</select>
+
+	<select id="selectMkMktmonitorTrac" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<include refid="select-all-column"/>
+		<include refid="where-all-condition"/>
+	</select>
+	
+	<insert id="insertMkMktmonitorTrac" parameterClass="java.util.Map">
+				INSERT INTO mk_mktmonitor_trac (
+				trac_id,
+				update_type,
+				monitor_id,
+				monitor_name,
+				busi_type,
+				busi_id,
+				monitor_type,
+				monitor_content,
+				warning_value,
+				warning_rate,
+				warning_sms,
+				oper_no,
+				oper_name,
+				oper_time,
+				update_no,
+				update_name,
+				update_time ) VALUES ( 
+				#tracId#,
+				#updateType#,
+				#monitorId#,
+				#monitorName#,
+				#busiType#,
+				#busiId#,
+				#monitorType#,
+				#monitorContent#,
+				#warningValue#,
+				#warningRate#,
+				#warningSms#,
+				#operNo#,
+				#operName#,
+				sysdate(),
+				#updateNo#,
+				#updateName#,
+				sysdate() )
+	</insert>
+	
+	<update id="updateMkMktmonitorTrac" parameterClass="java.util.Map">
+	UPDATE mk_mktmonitor_trac
+	<dynamic prepend=" SET ">
+		<isNotNull property="tracId" prepend=",">
+			trac_id = #tracId#
+		</isNotNull>
+		<isNotNull property="updateType" prepend=",">
+			update_type = #updateType#
+		</isNotNull>
+		<isNotNull property="monitorId" prepend=",">
+			monitor_id = #monitorId#
+		</isNotNull>
+		<isNotNull property="monitorName" prepend=",">
+			monitor_name = #monitorName#
+		</isNotNull>
+		<isNotNull property="busiType" prepend=",">
+			busi_type = #busiType#
+		</isNotNull>
+		<isNotNull property="busiId" prepend=",">
+			busi_id = #busiId#
+		</isNotNull>
+		<isNotNull property="monitorType" prepend=",">
+			monitor_type = #monitorType#
+		</isNotNull>
+		<isNotNull property="monitorContent" prepend=",">
+			monitor_content = #monitorContent#
+		</isNotNull>
+		<isNotNull property="warningValue" prepend=",">
+			warning_value = #warningValue#
+		</isNotNull>
+		<isNotNull property="warningRate" prepend=",">
+			warning_rate = #warningRate#
+		</isNotNull>
+		<isNotNull property="warningSms" prepend=",">
+			warning_sms = #warningSms#
+		</isNotNull>
+		<isNotNull property="operNo" prepend=",">
+			oper_no = #operNo#
+		</isNotNull>
+		<isNotNull property="operName" prepend=",">
+			oper_name = #operName#
+		</isNotNull>
+		<isNotNull property="operTime" prepend=",">
+			oper_time = #operTime#
+		</isNotNull>
+		<isNotNull property="updateNo" prepend=",">
+			update_no = #updateNo#
+		</isNotNull>
+		<isNotNull property="updateName" prepend=",">
+			update_name = #updateName#
+		</isNotNull>
+		<isNotNull property="updateTime" prepend=",">
+			update_time = #updateTime#
+		</isNotNull>
+	</dynamic>
+
+	<include refid="where-all-condition"/>
+	</update>
+	
+	<delete id="deleteMkMktmonitorTracById" parameterClass="java.util.Map">
+	DELETE FROM mk_mktmonitor_trac
+	WHERE trac_id = #tracId#
+	</delete>
+
+	<delete id="deleteMkMktmonitorTrac" parameterClass="java.util.Map">
+	DELETE FROM mk_mktmonitor_trac
+	<include refid="where-all-condition"/>
+	</delete>
+	
+	<select id="selectMkMktmonitorTracParam" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		<isEmpty property="S">
+			SELECT
+			trac_id AS tracId,
+			update_type AS updateType,
+			monitor_id AS monitorId,
+			monitor_name AS monitorName,
+			busi_type AS busiType,
+			busi_id AS busiId,
+			monitor_type AS monitorType,
+			monitor_content AS monitorContent,
+			warning_value AS warningValue,
+			warning_rate AS warningRate,
+			warning_sms AS warningSms,
+			oper_no AS operNo,
+			oper_name AS operName,
+			oper_time AS operTime,
+			update_no AS updateNo,
+			update_name AS updateName,
+			update_time AS updateTime
+		</isEmpty>
+		<isNotEmpty property="S">
+			SELECT $S$
+		</isNotEmpty>
+		 	FROM mk_mktmonitor_trac $W$
+	</select>
+</sqlMap>

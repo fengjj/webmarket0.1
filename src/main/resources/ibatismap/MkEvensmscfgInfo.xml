@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="MkEvensmscfgInfo">
+<sql id="select-all-column">
+	select a.busi_no as busiNo,
+        a.busi_name as busiName,
+        a.limit_type as limitType,
+        a.limit_value as limitValue,
+        a.busi_type as busiType,
+        a.send_type as sendType,
+        a.send_time as sendTime,
+        a.template_id as templateId,
+        a.delay_day as a.delayDay,
+        a.send_flag as sendFlag,
+        a.sms_type as smsType,
+        a.sms_info as smsInfo,
+        a.start_date as startDate,
+        a.end_date as endDate,
+        a.note as note,
+        a.oper_no as operNo,
+        a.oper_name as operName,
+        a.oper_date as operDate
+    from mk_evensmscfg_info a
+</sql>
+<select id="selectEventSmsCfg">
+  select a.busi_no as busiNo,
+         a.busi_name as busiName,
+         a.limit_value as limitValue,
+         a.send_time as sendTime,
+         a.oper_date as operDate,
+         a.oper_no as operNo
+     from mk_evensmscfg_info a
+     where 1=1 
+	<isNotNull property="busiName" prepend="and">
+		<isNotEmpty property="busiName">
+			a.busi_no like CONCAT('%',TRIM(#busiName#),'%') 
+		</isNotEmpty>
+	</isNotNull>
+	<isNotNull property="busiNo" prepend="and">
+		<isNotEmpty property="busiNo">
+			a.busi_no =busiNo
+		</isNotEmpty>
+	</isNotNull>
+	<isNotNull property="startDate">
+		<isNotEmpty property="operTimeStart">
+			<![CDATA[ and date_format(a.start_date,'%Y%m%d') >= date_format(#startDate#,'%Y%m%d') ]]>
+		</isNotEmpty>
+	</isNotNull>
+	<isNotNull property="endDate">
+		<isNotEmpty property="endDate">
+			<![CDATA[ and date_format(a.end_date,'%Y%m%d') <= date_format(#endDate#,'%Y%m%d') ]]>
+		</isNotEmpty>
+	</isNotNull>
+</select>	
+</sqlMap>

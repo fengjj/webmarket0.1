@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-03-17T10:36:56.644Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0" etag="fJe7FuSCuZmWXwejF8Rf" version="12.8.5" type="github" pages="5">
+<mxfile host="app.diagrams.net" modified="2020-03-17T12:46:40.877Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0" etag="8XX0FKDTlgYuCaSdoMGG" version="12.8.5" type="github" pages="5">
   <diagram id="bk7yWxwbMwhnokrNVwg6" name="场景配置-函数">
     <mxGraphModel dx="964" dy="593" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -164,8 +164,8 @@
         <mxCell id="a2SI8e3hPeV6xsrfjzk1-51" value="" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
           <mxGeometry x="90" y="260" width="620" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="a2SI8e3hPeV6xsrfjzk1-52" value="事件自定义" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
-          <mxGeometry x="95" y="270" width="70" height="20" as="geometry" />
+        <mxCell id="a2SI8e3hPeV6xsrfjzk1-52" value="事件规则配置" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="95" y="270" width="95" height="20" as="geometry" />
         </mxCell>
         <mxCell id="a2SI8e3hPeV6xsrfjzk1-53" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/png,iVBORw0KGgoAAAANSUhEUgAAABcAAAAbCAYAAACX6BTbAAAA10lEQVRIDe2UMQ6EIBBFPSFngcbGi3EL291mS40VNBRS+DdDzJKViYvj2jnJJASHN59vhgYXRnMhGzecdfe2pc6WZVkgSY5eeK61hiSr4dM0wXtflVRLYrhglRO4Nqj2AviMEGK6HQ9/luNPhb+VzxhsB9VaPP6rfAV3FmPEjnLsKI8BYd46/w2mryLPB9tCdRbDp0EJFsOBiJF8TQ148Ak4HV0bKJWakMfbENmSIRGvvk8/L+/l1Ul4BnGrw3AaaedcVR4af2MMJMndqnhbuCLp3g1nnXsDSHY0UUpMASAAAAAASUVORK5CYII=;" parent="1" vertex="1">
           <mxGeometry x="95" y="290" width="23" height="27" as="geometry" />

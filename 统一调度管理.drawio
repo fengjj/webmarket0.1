@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-06-10T06:19:25.836Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36" etag="K49TeyShFPJgLNdtIk43" version="13.2.1" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2020-06-10T06:19:52.609Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36" etag="TeMQOr4NLP-ZbfgV8Raf" version="13.2.1" type="github" pages="3">
   <diagram id="YMy744Zr7G7tqQ9wH_H6" name="Page-1">
     <mxGraphModel dx="1297" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -199,7 +199,7 @@
             <mxPoint x="490" y="260" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="GTToePFuWlSmCxQ9lm0x-18" value="LOG&lt;br&gt;任务实例执行日志" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="GTToePFuWlSmCxQ9lm0x-1">
+        <mxCell id="GTToePFuWlSmCxQ9lm0x-18" value="LOG&lt;br&gt;任务实例执行日志" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="GTToePFuWlSmCxQ9lm0x-1">
           <mxGeometry x="560" y="290" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="GTToePFuWlSmCxQ9lm0x-21" value="" style="endArrow=classic;startArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="GTToePFuWlSmCxQ9lm0x-1" source="GTToePFuWlSmCxQ9lm0x-15" target="GTToePFuWlSmCxQ9lm0x-18">

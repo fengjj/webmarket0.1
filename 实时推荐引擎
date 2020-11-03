@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-11-03T02:12:23.883Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36" etag="2nupePZC6R8OeyylCHQX" version="13.7.9" type="github">
+<mxfile host="app.diagrams.net" modified="2020-11-03T06:07:10.684Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36" etag="0s_M4JKD0GXwt2TDtSUy" version="13.7.9" type="github">
   <diagram id="m9SVyTbFrYjp3kEQ8yEQ" name="第 1 页">
     <mxGraphModel dx="1476" dy="876" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -33,6 +33,11 @@
         </mxCell>
         <mxCell id="W-yJu05h79quk2m7GxpT-10" value="更新" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="460" y="410" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="W-yJu05h79quk2m7GxpT-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="W-yJu05h79quk2m7GxpT-11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="330" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="W-yJu05h79quk2m7GxpT-11" value="推荐结果" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="400" y="310" width="120" height="40" as="geometry" />
@@ -75,6 +80,12 @@
         </mxCell>
         <mxCell id="W-yJu05h79quk2m7GxpT-30" value="实时用户行为" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="190" y="380" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="W-yJu05h79quk2m7GxpT-32" value="boss" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="W-yJu05h79quk2m7GxpT-33" value="实时&lt;br&gt;校验" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="520" y="305" width="40" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
